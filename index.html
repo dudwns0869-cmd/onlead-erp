@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/ 'sha256-lwbnKuvRP1CwT1FyIpQ+rEBD2T9gPfbngrJ0CMlJLVg='; style-src 'unsafe-inline'; img-src 'self' data:; connect-src https://gvgblzjefzcmdlrqhcdw.supabase.co; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/ 'sha256-IIGi/Ut+dnmWYrSb/YgEUazRiXH4LagG3mHKrlkHQsM='; style-src 'unsafe-inline'; img-src 'self' data:; connect-src https://gvgblzjefzcmdlrqhcdw.supabase.co; base-uri 'none'; form-action 'none'">
 <meta name="theme-color" content="#0f2d52">
 <!-- 배포 전 바꿀 자리표시자 2개(anon/publishable 키만. 서버용 비밀 키는 절대 넣지 않는다) -->
 <meta name="erp-supabase-url" content="https://gvgblzjefzcmdlrqhcdw.supabase.co">
@@ -234,6 +234,14 @@ h1{margin:0;font-size:24px;font-weight:800;letter-spacing:-.4px;line-height:1.3}
 .login .btn{width:100%;margin-top:12px}
 .msg{margin-top:12px;font-size:15px}
 .msg.err{color:#b42323}
+/* 2단계 인증(로그인 화면 모양 재사용) */
+.login .steps{margin:12px 0 0;padding-left:20px;font-size:15px}
+.login .steps li{margin:2px 0}
+.login .qr{display:flex;justify-content:center;margin:16px 0 8px}
+.login .qr img{width:208px;height:208px;background:#fff;border:1px solid var(--line);border-radius:var(--r-s);padding:8px}
+.login .secret{margin-top:6px;padding:10px 12px;background:var(--soft);border-radius:var(--r-s);font-family:ui-monospace,Consolas,monospace;font-size:16px;font-weight:700;letter-spacing:1px;word-break:break-all;text-align:center}
+.login #mfa-code{font-size:24px;font-weight:700;letter-spacing:8px;text-align:center;font-variant-numeric:tabular-nums}
+.login .btn-line{width:100%;margin-top:8px}
 
 #toast{position:fixed;left:50%;bottom:calc(var(--tab) + var(--sb) + 92px);transform:translateX(-50%);background:var(--text);color:#fff;padding:10px 16px;border-radius:10px;font-size:15px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:100;width:max-content;max-width:calc(100vw - 32px);text-align:center}
 #toast.show{opacity:1}
@@ -284,6 +292,32 @@ h1{margin:0;font-size:24px;font-weight:800;letter-spacing:-.4px;line-height:1.3}
   <button class="btn" id="login-btn" type="button">로그인 링크 받기</button>
   <div class="msg" id="login-msg" role="status"></div>
   <div class="muted" style="margin-top:12px;font-size:14px">메일은 시간당 2통까지만 갑니다. 안 오면 스팸함을 먼저 확인하세요.</div>
+ </div>
+</section>
+
+<!-- ===== 2단계 인증(인증 앱 숫자 6자리) ===== -->
+<section class="login" id="mfa" hidden>
+ <div class="card">
+  <h1>2단계 인증</h1>
+  <div class="muted" id="mfa-lead">인증 앱(Google Authenticator 등)에 보이는 숫자 6자리를 넣어 주세요.</div>
+  <div id="mfa-enroll" hidden>
+   <ol class="steps">
+    <li>휴대폰에서 인증 앱(Google Authenticator, Microsoft Authenticator 등)을 엽니다.</li>
+    <li>앱의 ‘+’ → ‘QR 코드 스캔’으로 아래 그림을 찍습니다.</li>
+    <li>앱에 생긴 ‘온리드 ERP’ 숫자 6자리를 아래에 넣습니다.</li>
+   </ol>
+   <div class="qr"><img id="mfa-qr" alt="인증 앱 등록용 QR 코드" width="208" height="208"></div>
+   <a class="btn-line" id="mfa-open" hidden>이 휴대폰의 인증 앱에 바로 등록</a>
+   <div class="muted" style="font-size:14px;margin-top:12px">이 화면을 휴대폰으로 보고 있어 QR을 찍을 수 없으면, 위 버튼을 누르거나 인증 앱에서 ‘설정 키 입력’(시간 기준)을 고르고 아래 키를 넣으세요.</div>
+   <button class="btn-line" id="mfa-show" type="button">설정 키 보기(QR을 못 찍을 때만)</button>
+   <div class="secret" id="mfa-secret" hidden></div>
+   <button class="btn-line" id="mfa-copy" type="button" hidden>키 복사하기</button>
+  </div>
+  <label for="mfa-code">인증 숫자 6자리</label>
+  <input id="mfa-code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000">
+  <button class="btn" id="mfa-btn" type="button">확인</button>
+  <div class="msg" id="mfa-msg" role="status"></div>
+  <button class="btn-line" id="mfa-logout" type="button">로그아웃</button>
  </div>
 </section>
 
@@ -477,6 +511,7 @@ h1{margin:0;font-size:24px;font-weight:800;letter-spacing:-.4px;line-height:1.3}
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
 <script>
 'use strict';
+if(self!==top)document.documentElement.remove();   // 다른 사이트 안에 끼워 넣어 누르게 하는 것(클릭재킹) 막기
 // ───────── 기본 도구(모든 글자는 textContent 로만 넣는다) ─────────
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 function h(tag,props,...kids){
@@ -533,6 +568,16 @@ function keyProblem(){
  return '';
 }
 const PROBLEM=keyProblem();
+// 화면 단계: '' 로그인 전 · 'mfa' 2단계 확인 중 · 'app' 데이터 화면(aal2 확인 뒤에만)
+let phase='',mfa=null;
+// 30분 비활동 자동 로그아웃(무료 플랜은 서버 쪽 비활동 만료가 없어 화면에서 한다). 마지막 사용 시각은 이 브라우저에만 둔다.
+const IDLE_MS=30*60*1000,IDLE_KEY='erp-last-use';
+let lastUse=0;
+function readLast(){try{return Number(localStorage.getItem(IDLE_KEY))||lastUse}catch(e){return lastUse}}
+function touch(force){const n=Date.now();if(!force&&n-lastUse<15000)return;lastUse=n;try{localStorage.setItem(IDLE_KEY,String(n))}catch(e){}}
+const idleExpired=()=>Date.now()-readLast()>IDLE_MS;
+// 메일 링크로 막 들어온 경우(주소에 토큰이 붙어 옴)는 지금을 마지막 사용으로 본다 — createClient 가 주소를 지우기 전에 확인
+if(/[#&?](access_token|code|token_hash)=/.test(location.hash+location.search))touch(true);
 const sb=PROBLEM?null:supabase.createClient(CFG.url.replace(/\/$/,''),CFG.key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 
 // ───────── 표 정의(입력 칸) ─────────
@@ -573,6 +618,7 @@ const clientName=id=>(DB.clients.find(c=>c.id===id)||{}).name||'고객사 미지
 
 // ───────── 불러오기·저장 ─────────
 async function loadAll(){
+ if(phase!=='app')return;
  const res=await Promise.all(Object.entries(T).map(([t,d])=>sb.from(t).select('*').order(d.order,{ascending:true,nullsFirst:false}).limit(2000)));
  let err='';
  res.forEach((r,i)=>{const t=Object.keys(T)[i];if(r.error)err=r.error.message;else DB[t]=r.data||[]});
@@ -580,18 +626,21 @@ async function loadAll(){
  renderAll();
 }
 async function save(table,id,row){
+ if(phase!=='app')return false;
  const q=id?sb.from(table).update(row).eq('id',id):sb.from(table).insert(row);
  const {error}=await q;
  if(error){toast('저장 실패: '+error.message);return false}
  toast('저장했습니다');await loadAll();return true;
 }
 async function removeRow(table,id){
+ if(phase!=='app')return false;
  if(!confirm('이 항목을 지울까요? 되돌릴 수 없습니다.'))return false;
  const {error}=await sb.from(table).delete().eq('id',id);
  if(error){toast('지우기 실패: '+error.message);return false}
  toast('지웠습니다');await loadAll();return true;
 }
 async function toggleDone(row,done){
+ if(phase!=='app')return;
  const {error}=await sb.from('schedules').update({done}).eq('id',row.id);
  if(error){toast('저장 실패: '+error.message);return}
  row.done=done;renderAll();
@@ -857,17 +906,102 @@ $('#form-del').addEventListener('click',async()=>{if(editing&&editing.id&&await 
 addEventListener('hashchange',route);
 let ly=scrollY;addEventListener('scroll',()=>{const y=scrollY,end=innerHeight+y>=document.documentElement.scrollHeight-4;$('#fab').classList.toggle('away',y>ly&&y>40&&!end);ly=y},{passive:true});
 
-// ───────── 로그인 ─────────
+// ───────── 로그인 → 2단계 인증(TOTP) → 데이터 화면 ─────────
+// 메일 링크 로그인(aal1) → 인증 앱 숫자 확인(aal2) → 그때만 DB를 부른다.
+// DB 쪽 is_owner()도 aal2 를 요구하므로 화면을 건너뛰어도 데이터는 나오지 않는다.
 function redirectUrl(){return location.origin+location.pathname.replace(/index\.html$/,'')}
+function showOnly(id){['login','mfa','app'].forEach(x=>$('#'+x).hidden=x!==id)}
 function showLogin(msg,err){
- $('#app').hidden=true;$('#login').hidden=false;
+ showOnly('login');
  const m=$('#login-msg');m.textContent=msg||'';m.classList.toggle('err',!!err);
 }
 function showApp(session){
- $('#login').hidden=true;$('#app').hidden=false;
+ phase='app';mfa=null;resetMfa();showOnly('app');
  $('#me-email').textContent=session.user.email||'';
  route();loadAll();
 }
+function mfaMsg(m,err){const e=$('#mfa-msg');e.textContent=m||'';e.classList.toggle('err',!!err)}
+function resetMfa(){
+ $('#mfa-enroll').hidden=true;$('#mfa-qr').removeAttribute('src');$('#mfa-open').hidden=true;$('#mfa-open').removeAttribute('href');
+ $('#mfa-secret').textContent='';delete $('#mfa-secret').dataset.raw;$('#mfa-secret').hidden=true;$('#mfa-copy').hidden=true;$('#mfa-show').hidden=false;
+ $('#mfa-code').value='';mfaMsg('');
+}
+function clearData(){Object.keys(DB).forEach(k=>DB[k]=[]);renderAll()}
+function wipeLocalSession(){try{Object.keys(localStorage).filter(k=>/^sb-.+-auth-token/.test(k)).forEach(k=>localStorage.removeItem(k))}catch(e){}}
+async function logout(msg){
+ phase='';mfa=null;clearData();resetMfa();showLogin(msg);
+ // 서버에 못 닿아도(오프라인 등) 이 브라우저의 로그인 정보는 지운다
+ try{const {error}=await sb.auth.signOut();if(error)wipeLocalSession()}catch(e){wipeLocalSession()}
+ showLogin(msg);
+}
+const IDLE_MSG='30분 동안 쓰지 않아 자동으로 로그아웃했습니다. 다시 로그인해 주세요.';
+
+// 인증 앱 준비: 등록된 것이 있으면 숫자 입력, 없으면(등록 중 버려진 것은 지우고) 새로 등록
+async function prepareMfa(){
+ mfa=null;mfaMsg('확인 중…');
+ const {data:f,error}=await sb.auth.mfa.listFactors();
+ if(error){mfaMsg('인증 앱 등록 상태를 읽지 못했습니다. [확인]을 눌러 다시 시도하세요: '+error.message,true);return}
+ const all=((f&&f.all)||[]).filter(x=>x.factor_type==='totp');
+ const ok=all.find(x=>x.status==='verified');
+ if(ok){
+  $('#mfa-lead').textContent='인증 앱(Google Authenticator 등)의 ‘온리드 ERP’에 보이는 숫자 6자리를 넣어 주세요.';
+  mfa={factorId:ok.id,enroll:false};mfaMsg('');return;
+ }
+ for(const x of all){
+  const {error:e}=await sb.auth.mfa.unenroll({factorId:x.id});
+  if(e){mfaMsg('이전에 하다 만 등록을 정리하지 못했습니다: '+e.message,true);return}
+ }
+ const {data:en,error:e2}=await sb.auth.mfa.enroll({factorType:'totp',friendlyName:'온리드 ERP'});
+ if(e2||!en||!en.totp){mfaMsg('인증 앱 등록을 시작하지 못했습니다: '+((e2&&e2.message)||'응답 없음'),true);return}
+ const qr=String(en.totp.qr_code||''),uri=String(en.totp.uri||''),sec=String(en.totp.secret||'');
+ if(qr.startsWith('data:image/svg+xml'))$('#mfa-qr').src=qr;
+ else if(qr.trim().startsWith('<svg'))$('#mfa-qr').src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(qr);
+ if(uri.startsWith('otpauth://totp/')){$('#mfa-open').setAttribute('href',uri);$('#mfa-open').hidden=false}
+ $('#mfa-secret').textContent=sec.replace(/(.{4})(?=.)/g,'$1 ');$('#mfa-secret').dataset.raw=sec;
+ $('#mfa-lead').textContent='처음 한 번만 인증 앱을 등록합니다. 다음부터는 숫자 6자리만 넣으면 됩니다.';
+ $('#mfa-enroll').hidden=false;
+ mfa={factorId:en.id,enroll:true};mfaMsg('');
+}
+async function verifyMfa(){
+ if(phase!=='mfa')return;
+ if(!mfa){await prepareMfa();return}
+ const code=$('#mfa-code').value.replace(/\s/g,'');
+ if(!/^\d{6}$/.test(code)){mfaMsg('인증 앱에 보이는 숫자 6자리를 넣어 주세요.',true);return}
+ const b=$('#mfa-btn');b.disabled=true;mfaMsg('확인 중…');
+ let error=null;
+ try{
+  if(mfa.enroll)({error}=await sb.auth.mfa.challengeAndVerify({factorId:mfa.factorId,code}));
+  else{
+   const c=await sb.auth.mfa.challenge({factorId:mfa.factorId});error=c.error;
+   if(!error)({error}=await sb.auth.mfa.verify({factorId:mfa.factorId,challengeId:c.data.id,code}));
+  }
+ }catch(e){error=e}
+ b.disabled=false;
+ if(error){
+  $('#mfa-code').value='';
+  mfaMsg(/invalid|expired|incorrect|code/i.test(String(error.message||''))?'숫자가 맞지 않거나 시간이 지났습니다. 인증 앱의 새 숫자로 다시 넣어 주세요.':'확인하지 못했습니다: '+(error.message||error),true);
+  return;
+ }
+ mfa=null;gate();
+}
+
+// 로그인 상태가 바뀔 때마다 한 번씩 차례로 확인(동시에 여러 번 돌지 않게 줄 세움)
+async function gateOnce(){
+ const {data}=await sb.auth.getSession(),session=data&&data.session;
+ if(!session){if(phase){phase='';mfa=null;clearData();resetMfa()}showLogin($('#login-msg').textContent);return}
+ if(idleExpired()){await logout(IDLE_MSG);return}
+ const {data:a,error}=await sb.auth.mfa.getAuthenticatorAssuranceLevel();
+ if(!error&&a&&a.currentLevel==='aal2'){if(phase!=='app'){touch(true);showApp(session)}return}
+ // aal1: 데이터 화면을 닫고 2단계 인증으로
+ if(phase==='app'){phase='';clearData()}
+ if(phase==='mfa'&&mfa)return; // 이미 QR·숫자 화면이면 그대로(토큰 갱신 때 QR이 바뀌지 않게)
+ phase='mfa';showOnly('mfa');resetMfa();
+ if(error){mfaMsg('인증 단계를 확인하지 못했습니다. [확인]을 눌러 다시 시도하세요: '+error.message,true);return}
+ await prepareMfa();
+}
+let gq=Promise.resolve();
+function gate(){gq=gq.then(gateOnce).catch(e=>{if(phase==='mfa')mfaMsg('확인 중 문제가 생겼습니다: '+((e&&e.message)||e),true)});return gq}
+
 $('#login-btn').addEventListener('click',async()=>{
  if(!sb)return;
  const email=$('#login-email').value.trim();
@@ -878,18 +1012,23 @@ $('#login-btn').addEventListener('click',async()=>{
  if(error)showLogin(/rate|limit/i.test(error.message)?'메일 발송 한도(시간당 2통)에 걸렸습니다. 잠시 뒤 다시 시도하세요.':'보내지 못했습니다: '+error.message,true);
  else showLogin('메일함에서 로그인 링크를 눌러 주세요. 등록된 메일만 받습니다.');
 });
-$('#logout-btn').addEventListener('click',async()=>{await sb.auth.signOut();Object.keys(DB).forEach(k=>DB[k]=[]);showLogin('로그아웃했습니다.')});
+$('#mfa-btn').addEventListener('click',verifyMfa);
+$('#mfa-code').addEventListener('keydown',e=>{if(e.key==='Enter')verifyMfa()});
+$('#mfa-show').addEventListener('click',()=>{$('#mfa-secret').hidden=false;$('#mfa-copy').hidden=false;$('#mfa-show').hidden=true});
+$('#mfa-copy').addEventListener('click',()=>navigator.clipboard.writeText($('#mfa-secret').dataset.raw||'').then(()=>mfaMsg('키를 복사했습니다. 인증 앱의 ‘설정 키 입력’에 붙여 넣은 뒤 클립보드 기록에서 지워 주세요.'),()=>mfaMsg('복사하지 못했습니다. 키를 직접 옮겨 적어 주세요.',true)));
+$('#mfa-logout').addEventListener('click',()=>logout('로그아웃했습니다.'));
+$('#logout-btn').addEventListener('click',()=>logout('로그아웃했습니다.'));
 $('#reload-btn').addEventListener('click',()=>loadAll().then(()=>toast('새로 불러왔습니다')));
 
 if(!sb){showLogin(PROBLEM,true);$('#login-btn').disabled=true}
 else{
- let shown=false;
- sb.auth.onAuthStateChange((ev,session)=>{
-  // 콜백 안에서 바로 DB를 부르면 인증 잠금에 걸릴 수 있어 한 박자 늦춘다(supabase-js 안내)
-  if(session&&!shown){shown=true;setTimeout(()=>showApp(session),0)}
-  else if(!session){shown=false;showLogin($('#login-msg').textContent)}
- });
- sb.auth.getSession().then(({data})=>{if(!data.session&&!shown)showLogin('')});
+ // 콜백 안에서 바로 다른 인증·DB 호출을 하면 인증 잠금에 걸릴 수 있어 한 박자 늦춘다(supabase-js 안내)
+ sb.auth.onAuthStateChange(()=>{setTimeout(gate,0)});
+ const idleCheck=()=>{if(phase&&idleExpired())logout(IDLE_MSG)};
+ // 누르거나 쓰면 '사용'으로 본다. 이미 30분이 지났으면 그 손짓으로 연장하지 않고 로그아웃.
+ ['pointerdown','keydown','touchstart','wheel'].forEach(ev=>addEventListener(ev,()=>{if(!phase)return;if(idleExpired())idleCheck();else touch()},{capture:true,passive:true}));
+ setInterval(idleCheck,30000);
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)idleCheck()});
 }
 </script>
 </body>
