@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/ 'sha256-ET+7ZhhwBvbq8bqgORvGj53fpv59HRhCu4c4md/y0NA='; style-src 'unsafe-inline'; img-src 'self' data:; manifest-src 'self'; connect-src https://gvgblzjefzcmdlrqhcdw.supabase.co; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/ 'sha256-THgGa2GgFZSnPCw3olm+tiL2h4+6lqq6YmjZY5wl8vQ='; style-src 'unsafe-inline'; img-src 'self' data:; manifest-src 'self'; connect-src https://gvgblzjefzcmdlrqhcdw.supabase.co; base-uri 'none'; form-action 'none'">
 <meta name="theme-color" content="#0f2d52">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -257,6 +257,16 @@ h1{margin:0;font-size:24px;font-weight:800;letter-spacing:-.4px;line-height:1.3}
 .login .btn-line{width:100%;margin-top:8px}
 .login .lnk{display:block;margin:16px auto 0;background:none;border:0;padding:8px;color:var(--muted,#667085);font-size:14px;text-decoration:underline}
 
+/* 공고·동기화 시각(읽기만) */
+.sync{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;font-size:14px;color:var(--muted);margin-top:2px;font-variant-numeric:tabular-nums}
+.sync .sm{flex-basis:100%;font-size:14px;color:#b42323}
+.tag.gone{background:#f3f4f6;border-color:#d1d5db;color:#6b7280}
+.item .mt{display:block;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
+.item .mh{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.fx:not(:empty){background:var(--soft);border-radius:var(--r-s);padding:4px 12px 8px;margin-bottom:8px}
+.fx .li{border-bottom-color:#d6dde7}
+.fx .ch h3{font-size:16px}
+
 #toast{position:fixed;left:50%;bottom:calc(var(--tab) + var(--sb) + 92px);transform:translateX(-50%);background:var(--text);color:#fff;padding:10px 16px;border-radius:10px;font-size:15px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:100;width:max-content;max-width:calc(100vw - 32px);text-align:center}
 #toast.show{opacity:1}
 
@@ -368,6 +378,7 @@ h1{margin:0;font-size:24px;font-weight:800;letter-spacing:-.4px;line-height:1.3}
  <div class="grp-t">영업·일정</div>
  <a href="#marketing">마케팅 문의<span class="badge b-gray" data-count="marketing_inquiries"></span></a>
  <a href="#schedule">일정·할 일<span class="badge b-gray" data-count="schedules"></span></a>
+ <a href="#notice">공고<span class="badge b-gray" id="c-notice" hidden></span></a>
  <div class="grp-t">마케팅 운영</div>
  <a href="#upload">업로드·월보고<span class="badge b-gray" data-count="marketing_uploads"></span></a>
  <div class="grp-t">기타</div>
@@ -380,7 +391,7 @@ h1{margin:0;font-size:24px;font-weight:800;letter-spacing:-.4px;line-height:1.3}
 
 <!-- 대시보드 -->
 <section class="view" id="v-dashboard">
- <div class="hello"><div class="dt" id="d-date"></div><h1 id="d-hello"></h1></div>
+ <div class="hello"><div class="dt" id="d-date"></div><div class="sync" id="d-sync" role="status"></div><h1 id="d-hello"></h1></div>
  <div class="big">
   <a class="bc" href="#schedule"><span class="bl">오늘 할 일</span><span class="bn"><span id="d-today">0</span><small>건</small></span><span class="bs">일정·할 일 열기 ›</span></a>
   <a class="bc hot" href="#clients"><span class="bl">마감 임박</span><span class="bn"><span id="d-due">0</span><small>건</small></span><span class="bs">7일 안·지난 마감 ›</span></a>
@@ -391,6 +402,7 @@ h1{margin:0;font-size:24px;font-weight:800;letter-spacing:-.4px;line-height:1.3}
  <div class="dcards">
   <div class="card"><div class="ch"><h3>오늘 할 일</h3><a class="lnk" href="#schedule">일정·할 일 열기 ›</a></div><div id="d-today-list"></div></div>
   <div class="card"><div class="ch"><h3>마감 임박 (7일 안)</h3><a class="lnk" href="#clients">고객사 관리 ›</a></div><div id="d-due-list"></div></div>
+  <div class="card"><div class="ch"><h3>마감 7일 안 공고</h3><a class="lnk" href="#notice">공고 ›</a></div><div id="d-notice-list"></div></div>
   <div class="card"><div class="ch"><h3>받을 돈</h3><a class="lnk" href="#money">수수료 ›</a></div><div id="d-recv-list"></div></div>
   <div class="card"><div class="ch"><h3>이번 주 일정</h3><a class="lnk" href="#schedule">전체 보기 ›</a></div><div class="strip" id="d-strip"></div><div id="d-week-list"></div></div>
  </div>
@@ -479,6 +491,16 @@ h1{margin:0;font-size:24px;font-weight:800;letter-spacing:-.4px;line-height:1.3}
  <div class="muted" style="margin-top:12px">미리보기만 합니다. 알림 파일에 넣는 것은 PC에서 대표님 확인 후 합니다.</div>
 </section>
 
+<!-- 공고(읽기만 — 넣기·고치기는 PC 공고 수집) -->
+<section class="view" id="v-notice">
+ <div class="vh"><div><h1>공고</h1><div class="st2">마감 임박순 · 매칭 업체 · 가능성 · 확인할 것 (가능성일 뿐 선정 보장 아님)</div></div></div>
+ <div class="tools"><input class="q" type="search" placeholder="공고·기관·업체 검색" aria-label="검색"><button class="fbtn" data-filter type="button" aria-label="가능성 필터"><span>전체</span> ▾</button></div>
+ <div class="sheet fsh" role="dialog" aria-label="가능성 필터"><div class="hd"></div><h2>가능성</h2><div class="chips"></div><div class="btns"><button class="btn-line" data-close type="button">닫기</button></div></div>
+ <div class="items" id="l-notice"></div>
+ <div class="empty"><b>가능성 높음·보통으로 매칭된 공고가 없습니다</b><span>PC에서 매일 공고를 모아 업체와 맞춰 넣습니다.</span></div>
+ <div class="muted" id="s-notice"></div>
+</section>
+
 <!-- 더보기 -->
 <section class="view" id="v-more">
  <div class="vh"><div><h1>더보기</h1><div class="st2">전체 메뉴</div></div></div>
@@ -493,6 +515,7 @@ h1{margin:0;font-size:24px;font-weight:800;letter-spacing:-.4px;line-height:1.3}
   <a href="#marketing"><span class="l">마케팅 문의</span><span class="ch2">›</span></a>
   <a href="#schedule"><span class="l">일정·할 일</span><span class="ch2">›</span></a>
   <a href="#notify"><span class="l">알림 파일 미리보기</span><span class="ch2">›</span></a>
+  <a href="#notice"><span class="l">공고</span><span class="ch2">›</span></a>
  </div>
  <div class="card menu">
   <div class="grp-t">마케팅 운영</div>
@@ -531,6 +554,7 @@ h1{margin:0;font-size:24px;font-weight:800;letter-spacing:-.4px;line-height:1.3}
 <div class="sheet" id="sheet" role="dialog" aria-label="입력">
  <div class="hd"></div>
  <h2 id="form-title">새로 추가</h2>
+ <div class="fx" id="form-extra"></div>
  <div id="form-fields"></div>
  <div class="btns two"><button class="btn-line" data-close type="button">닫기</button><button class="btn" id="form-save" type="button">저장</button></div>
  <div class="btns"><button class="btn-del" id="form-del" type="button" hidden>지우기</button></div>
@@ -585,6 +609,8 @@ function tone(s){
 }
 const badge=s=>h('span',{class:'badge '+tone(s),text:s||UNK});
 const stageTag=s=>h('span',{class:'badge stg '+tone(s),text:s||UNK,title:s||UNK});   // 긴 진행 상태는 2줄까지, 넘치면 말줄임
+// 원본(진행현황·공고)에서 사라진 항목 표시 — 칸이 없으면 아무것도 안 붙는다
+const gone=r=>r&&r[NT.missing]===true?h('span',{class:'tag gone',text:'원본 없음'}):null;
 
 // ───────── 연결 설정(자리표시자는 meta 에서 읽는다 — 스크립트 지문이 바뀌지 않게) ─────────
 const CFG={url:$('meta[name="erp-supabase-url"]').content.trim(),key:$('meta[name="erp-supabase-anon-key"]').content.trim()};
@@ -643,18 +669,41 @@ const T={
   {k:'count',l:'회차·건수',type:'num'},{k:'monthly_report_month',l:'월보고 대상 월(월보고일 때만)',type:'month'},{k:'note',l:'메모',type:'area'}]},
 };
 const DB=Object.fromEntries(Object.keys(T).map(k=>[k,[]]));
+// 읽기만 하는 표(입력 시트 없음). 표·칸 이름이 바뀌면 여기만 고친다.
+const NT={
+ matches:'notice_matches',
+ // 높음·보통 매칭만, 필요한 칸만 + 공고는 notice_id 외래키로 함께(요청 1번)
+ matchCols:'notice_id,client_name,likelihood,unknowns,mismatches,url,notices(id,title,org,url,deadline,checked_on)',
+ matchLimit:500,
+ sync:'sync_runs',syncCols:'kind,last_success_at,last_attempt_at,ok,summary,fail_streak,changed_n,collected_n,matched_n',
+ // [kind 값, 시각 앞 글, 실패 글, 성공 뒤 이만큼 지나면 경고(ms), 경고 글]
+ syncKinds:[['동기화','마지막 동기화','동기화 실패',30*60*1000,'동기화 30분 넘게 멈춤'],['공고','공고','공고 동기화 실패',26*3600*1000,'공고 26시간 넘게 멈춤']],
+ missing:'source_missing', // 원본에서 사라진 항목(칸이 없으면 무시)
+ failWarn:3};
+DB.notices=[];DB.notice_matches=[];DB.sync_runs=[];let NERR='',SERR='';
 const VIEW_TABLE={dashboard:'schedules',clients:'clients',money:'fees',freelancer:'freelancer_payouts',schedule:'schedules',marketing:'marketing_inquiries',upload:'marketing_uploads'};
-const TAB={freelancer:'money',upload:'marketing',notify:'schedule'};
+const TAB={freelancer:'money',upload:'marketing',notify:'schedule',notice:'more'};
 const clientName=id=>(DB.clients.find(c=>c.id===id)||{}).name||'고객사 미지정';
 
 // ───────── 불러오기·저장 ─────────
 async function loadAll(){
  if(phase!=='app')return;
- const res=await Promise.all(Object.entries(T).map(([t,d])=>sb.from(t).select('*').order(d.order,{ascending:true,nullsFirst:false}).limit(2000)));
+ const [res]=await Promise.all([Promise.all(Object.entries(T).map(([t,d])=>sb.from(t).select('*').order(d.order,{ascending:true,nullsFirst:false}).limit(2000))),loadRead().catch(e=>{NERR=String((e&&e.message)||e)})]);
  let err='';
  res.forEach((r,i)=>{const t=Object.keys(T)[i];if(r.error)err=r.error.message;else DB[t]=r.data||[]});
  if(err)toast('불러오기 실패: '+err);
  renderAll();
+}
+// 공고·매칭·동기화 기록: 표가 아직 없거나 오류여도 다른 화면은 그대로 두고 빈 목록으로
+async function loadRead(){
+ const [ms,ss]=await Promise.all([
+  sb.from(NT.matches).select(NT.matchCols).in('likelihood',['높음','보통']).order('checked_on',{ascending:false}).limit(NT.matchLimit),
+  sb.from(NT.sync).select(NT.syncCols).limit(20)]);
+ NERR=ms.error?ms.error.message||'오류':'';SERR=ss.error?ss.error.message||'오류':'';
+ const rows=ms.error?[]:ms.data||[],nm=new Map();
+ rows.forEach(r=>{if(r.notices&&!nm.has(r.notices.id))nm.set(r.notices.id,r.notices)});
+ DB.notices=[...nm.values()];DB.notice_matches=rows.filter(r=>r.notices).map(({notices,...m})=>m);
+ DB.sync_runs=ss.error?[]:ss.data||[];
 }
 async function save(table,id,row){
  if(phase!=='app')return false;
@@ -715,6 +764,7 @@ function openForm(table,row){
  $('#form-title').textContent=(row?'고치기 · ':'새로 추가 · ')+T[table].label;
  const box=$('#form-fields');box.replaceChildren(...T[table].fields.map(f=>field(f,row?row[f.k]:(f.k==='date'&&table==='schedules'?today():f.k==='month'?today().slice(0,7):null))));
  autoCalc(table);
+ $('#form-extra').replaceChildren(...(table==='clients'&&row?clientNotices(row):[]));
  $('#form-del').hidden=!row;
  openSheet($('#sheet'));
 }
@@ -759,7 +809,7 @@ function renderClients(){
  $('#l-clients').replaceChildren(...rows.map(r=>h('button',{type:'button',class:'item fi',data:{t:r.stage||UNK},onclick:()=>openForm('clients',r)},
   h('span',{class:'top'},h('span',null,h('span',{class:'nm',text:r.name}),h('span',{class:'muted',text:r.program||UNK}),stageTag(r.stage))),
   h('span',{class:'ln',text:'다음 할 일 · '+(r.next_action||UNK)}),
-  h('span',{class:'bot'},r.status==='종료'?h('span',{class:'muted',text:'마감 —'}):dday(r.due),h('span',{class:'muted',text:'요율 '+(r.fee_rate||UNK)}),r.status&&r.status!=='진행'?badge(r.status):null))));
+  h('span',{class:'bot'},r.status==='종료'?h('span',{class:'muted',text:'마감 —'}):dday(r.due),h('span',{class:'muted',text:'요율 '+(r.fee_rate||UNK)}),r.status&&r.status!=='진행'?badge(r.status):null,gone(r)))));
  const act=rows.filter(r=>r.status!=='종료').length;
  $('#s-clients').textContent=rows.length?`${rows.length}곳 · 진행 중(종료 제외) ${act}곳`:'';
 }
@@ -778,7 +828,7 @@ function renderFees(){
  const steps=['예상','청구','입금','발행'],cls=['b-gray','b-amber','b-blue','b-green'];
  $('#f-money').replaceChildren(...steps.flatMap((s,i)=>[h('div',{class:cls[i]},h('b',{text:s}),h('span',{text:String(by(s).length)})),i<3?h('div',{class:'ar',text:'→'}):null]).filter(Boolean));
  $('#l-fees').replaceChildren(...rows.map(r=>h('button',{type:'button',class:'item fi',data:{t:r.status||UNK},onclick:()=>openForm('fees',r)},
-  h('span',{class:'top'},h('span',null,h('span',{class:'nm',text:clientName(r.client_id)}),h('span',{class:'ln',text:r.item||UNK})),badge(r.status)),
+  h('span',{class:'top'},h('span',null,h('span',{class:'nm',text:clientName(r.client_id)}),h('span',{class:'ln',text:r.item||UNK}),gone(r)),badge(r.status)),
   kvs([['공급가액',won(r.supply_amount)],['부가세',won(r.vat)],['합계',r.supply_amount==null?UNK:won(feeTotal(r))]]),
   kvs([['청구일',md(r.billed_on)],['입금일',md(r.paid_on)],['발행일',r.invoice_issued?md(r.invoice_on):'—']]),
   r.note?h('span',{class:'bot'},h('span',{text:r.note})):null)));
@@ -798,7 +848,7 @@ function renderPayouts(){
   kpi('실제 보낸 돈',won(s('net')),'원','지급 총액 − 원천세'),
   kpi('신고·납부 기한',md(dl),'('+wd(dl)+')',mr.length&&mr.every(r=>r.reported)?'신고 완료':(n<0?'기한 지남':'D-'+n)));
  $('#l-payouts').replaceChildren(...rows.map(r=>h('button',{type:'button',class:'item fi',data:{t:r.month},onclick:()=>openForm('freelancer_payouts',r)},
-  h('span',{class:'top'},h('span',null,h('span',{class:'nm',text:md(r.paid_on)+' · '+r.payee_label}),h('span',{class:'ln',text:r.month+' 귀속'+(r.note?' · '+r.note:'')})),badge(r.reported?'신고 완료':'신고 대기')),
+  h('span',{class:'top'},h('span',null,h('span',{class:'nm',text:md(r.paid_on)+' · '+r.payee_label}),h('span',{class:'ln',text:r.month+' 귀속'+(r.note?' · '+r.note:'')}),gone(r)),badge(r.reported?'신고 완료':'신고 대기')),
   kvs([['지급 총액',won(r.gross)],['소득세 3%',won(r.income_tax)],['지방 0.3%',won(r.local_tax)]]),
   kvs([['원천세 합계',r.income_tax==null?UNK:won((r.income_tax||0)+(r.local_tax||0))],['실지급액',won(r.net)],['지급일',md(r.paid_on)]],'total'))));
 }
@@ -818,7 +868,7 @@ function schedRow(r,withDate){
  // 체크칸만 완료를 바꾸고, 줄의 나머지(글자·고치기)를 누르면 고치기 창이 열린다
  const edit=h('button',{type:'button',class:'lnk',text:'고치기'});
  return h('div',{class:'todo-row',onclick:e=>{if(!e.target.closest('.cbx'))openForm('schedules',r)}},h('label',{class:'cbx'},cb),h('span',{class:'tx',text:(withDate?md(r.date)+'('+wd(r.date)+') ':'')+r.title}),
-  h('span',{class:'tags'},h('span',{class:'tag',text:r.category||'기타'}),h('span',{class:'tag nv',text:r.at_time?'텔레그램 '+String(r.at_time).slice(0,5):'아침 보고 08:30'}),edit));
+  h('span',{class:'tags'},h('span',{class:'tag',text:r.category||'기타'}),h('span',{class:'tag nv',text:r.at_time?'텔레그램 '+String(r.at_time).slice(0,5):'아침 보고 08:30'}),gone(r),edit));
 }
 function strip(box,start,onPick){
  const t=today();
@@ -871,6 +921,69 @@ function renderUploads(){
   h('span',{class:'top'},h('span',null,h('span',{class:'nm',text:r.client}),h('span',{class:'muted',text:r.monthly_report_month+' 보고'})),badge(r.uploaded_on?'보냄':'작성 중')),
   h('span',{class:'ln'},'보낼 기한 ',h('b',{text:r.planned_on||UNK}),' · 보낸 날 ',h('b',{text:r.uploaded_on||'—'})),r.note?h('span',{class:'muted',text:r.note}):null)));
 }
+// ───────── 공고(읽기만) ─────────
+const SAFE_URL=/^https:\/\/([a-z0-9-]+\.)*(bizinfo\.go\.kr|kosmes\.or\.kr|kibo\.or\.kr)\//;
+const safeUrl=(...u)=>u.find(x=>SAFE_URL.test(x||''))||null;
+const LK=['높음','보통','낮음'],lkRank=m=>{const i=LK.indexOf(m.likelihood);return i<0?3:i},hiMid=m=>m.likelihood==='높음'||m.likelihood==='보통';
+const lkBadge=l=>h('span',{class:'badge '+(l==='높음'?'b-green':l==='보통'?'b-amber':'b-gray'),text:'가능성 '+(l||UNK)});
+const srcLink=url=>url?h('a',{class:'lnk',href:url,target:'_blank',rel:'noopener noreferrer',text:'원문 ›'}):h('span',{class:'muted',text:'원문 주소 확인 필요'});
+// 마감 임박순: 오늘 이후(가까운 순) → 지난 것(최근 순) → 마감 없음
+function byDue(a,b){
+ const t=today(),k=d=>!d?[2,'']:d>=t?[0,d]:[1,d],x=k(a),y=k(b);
+ return x[0]-y[0]||(x[0]===1?y[1].localeCompare(x[1]):x[1].localeCompare(y[1]));
+}
+// [매칭, 공고] 쌍을 마감 임박순으로
+function matchRows(ok){
+ const nm=new Map(DB.notices.map(n=>[n.id,n]));
+ return DB.notice_matches.filter(m=>nm.has(m.notice_id)&&ok(m,nm.get(m.notice_id))).map(m=>[m,nm.get(m.notice_id)])
+  .sort((a,b)=>byDue(a[1].deadline,b[1].deadline)||lkRank(a[0])-lkRank(b[0]));
+}
+function renderNotice(){
+ const by=new Map();DB.notice_matches.forEach(m=>{if(!by.has(m.notice_id))by.set(m.notice_id,[]);by.get(m.notice_id).push(m)});
+ const rows=[...DB.notices].sort((a,b)=>byDue(a.deadline,b.deadline)||String(a.title||'').localeCompare(String(b.title||''),'ko'));
+ const tags=rows.map(n=>[...new Set((by.get(n.id)||[]).map(m=>m.likelihood))]);
+ const c=v=>tags.filter(x=>x.includes(v)).length;
+ chips('notice',[['전체',rows.length],['높음',c('높음')],['보통',c('보통')]].filter(x=>x[0]==='전체'||x[1]),'전체');
+ $('#l-notice').replaceChildren(...rows.map((n,i)=>{
+  const ms=[...(by.get(n.id)||[])].sort((a,b)=>lkRank(a)-lkRank(b)||String(a.client_name).localeCompare(String(b.client_name),'ko'));
+  return h('div',{class:'item fi',data:{t:tags[i].join('|')}},
+   h('span',{class:'top'},h('span',null,h('span',{class:'nm',text:n.title||n.id}),h('span',{class:'muted',text:n.org||UNK})),dday(n.deadline)),
+   ms.map(m=>h('span',{class:'mt'},h('span',{class:'mh'},h('b',{text:m.client_name||UNK}),lkBadge(m.likelihood)),
+    h('span',{class:'ln',text:'확인할 것 · '+toCheck(m)}))),
+   h('span',{class:'bot'},srcLink(safeUrl(n.url,...ms.map(m=>m.url))),h('span',{class:'muted',text:'확인 '+md(n.checked_on)})));
+ }));
+ $('#s-notice').textContent=NERR?'공고 표를 읽지 못했습니다: '+NERR:rows.length?`공고 ${rows.length}건(높음·보통 매칭) · 가능성일 뿐 선정 보장 아님`:'';
+ const cn=$('#c-notice');cn.textContent=rows.length;cn.hidden=!rows.length;
+}
+// 확인할 것 = 확인 필요한 조건 + 안 맞는 조건
+const toCheck=m=>[m.unknowns,m.mismatches?'안 맞는 조건: '+m.mismatches:''].filter(x=>x&&x!=='없음'&&x!=='안 맞는 조건: 없음').join(' / ')||'없음';
+// 고객사 상세(고치기 창) 안: 그 업체에 높음·보통으로 매칭된 공고
+function clientNotices(c){
+ const list=matchRows(m=>m.client_name===c.name&&hiMid(m));
+ return [h('div',{class:'ch'},h('h3',{text:'매칭된 공고 '+list.length+'건'}),h('a',{class:'lnk',href:'#notice',text:'공고 ›'})),
+  ...(list.length?list.map(([m,n])=>h('div',{class:'li'},dday(n.deadline),
+   h('span',{class:'tx'},h('span',{text:n.title||n.id}),h('span',{style:{display:'flex',flexWrap:'wrap',gap:'6px',marginTop:'4px'}},lkBadge(m.likelihood))),
+   srcLink(safeUrl(m.url,n.url)))):[h('div',{class:'muted',style:{padding:'8px 0'},text:'높음·보통으로 매칭된 공고가 없습니다'})]),
+  h('div',{class:'muted',style:{fontSize:'14px'},text:'가능성일 뿐 선정 보장 아님'})];
+}
+// 마지막 동기화 시각(대시보드 위)
+function syncTime(s){
+ if(!s)return '기록 없음';const d=new Date(s);if(isNaN(d))return UNK;
+ return (d.getMonth()+1)+'/'+d.getDate()+' '+pad(d.getHours())+':'+pad(d.getMinutes());
+}
+function renderSync(){
+ const box=$('#d-sync'),rows=DB.sync_runs,get=k=>rows.find(r=>r.kind===k);
+ if(SERR){box.replaceChildren(h('span',{class:'badge b-amber',text:'동기화 기록을 읽지 못함'}));return}
+ if(!rows.length){box.replaceChildren(h('span',{text:'동기화 기록 없음'}));return}
+ const bad=NT.syncKinds.map(([k,,f])=>[get(k),f]).filter(([r])=>r&&Number(r.fail_streak)>=NT.failWarn);
+ // 예약 작업이 아예 안 돈 경우: 마지막 성공이 너무 오래됨(또는 없음)
+ // 한 번도 돈 적 없는 종류(기록 없음)는 멈춤 경고를 띄우지 않는다(첫 실행 전)
+ const old=NT.syncKinds.filter(([k,,,ms])=>{const r=get(k),s=r&&Date.parse(r.last_success_at);return r?(!s||Date.now()-s>ms):false});
+ box.replaceChildren(h('span',{text:NT.syncKinds.map(([k,l])=>l+' '+syncTime((get(k)||{}).last_success_at)).join(' · ')}),
+  ...bad.map(([r,f])=>h('span',{class:'badge b-red',text:f+' '+Number(r.fail_streak)+'회'})),
+  ...old.map(x=>h('span',{class:'badge b-amber',text:x[4]})),
+  ...bad.map(([r,f])=>h('span',{class:'sm',text:f+' · 마지막 시도 '+syncTime(r.last_attempt_at)+(r.summary?' · '+String(r.summary).slice(0,120):'')})));
+}
 function renderNotify(){
  const t=today(),rows=DB.schedules.filter(r=>!r.done&&r.date>=t).sort((a,b)=>a.date.localeCompare(b.date)||String(a.at_time||'').localeCompare(String(b.at_time||'')));
  const line=r=>'- '+r.date+(r.at_time?' '+String(r.at_time).slice(0,5):'')+' | '+r.title;
@@ -891,7 +1004,11 @@ function renderDashboard(){
  const none=m=>h('div',{class:'muted',style:{padding:'12px 0'},text:m});
  $('#d-today-list').replaceChildren(...(todo.length?todo.map(r=>h('div',{class:'fi'},schedRow(r,false))):[none('오늘 할 일이 없습니다')]));
  $('#d-due-list').replaceChildren(...(due.length?due.map(r=>h('button',{type:'button',class:'li tap fi',onclick:()=>openForm('clients',r)},dday(r.due),h('span',{class:'tx',text:r.name+' · '+(r.next_action||UNK)}))):[none('7일 안 마감이 없습니다')]));
- $('#d-recv-list').replaceChildren(...(recv.length?[...recv.map(r=>h('button',{type:'button',class:'li tap fi',onclick:()=>openForm('fees',r)},h('span',{class:'tx'},h('b',{text:clientName(r.client_id)}),' · '+(r.item||UNK),h('span',{style:{display:'block'}},h('span',{class:'badge b-amber',text:'청구 · '+md(r.billed_on)}))),h('span',{class:'dd',text:won(feeTotal(r))+'원'}))),
+ const ns=matchRows((m,n)=>hiMid(m)&&n.deadline&&n.deadline>=t&&n.deadline<=soon);
+ $('#d-notice-list').replaceChildren(...(ns.length?ns.map(([m,n])=>h('button',{type:'button',class:'li tap fi',onclick:()=>{location.hash='#notice'}},dday(n.deadline),
+  h('span',{class:'tx'},h('b',{text:m.client_name||UNK}),' · '+(n.title||n.id),h('span',{style:{display:'block'}},lkBadge(m.likelihood))))):[none(NERR?'공고 표를 읽지 못했습니다':'7일 안 마감인 높음·보통 공고가 없습니다')]));
+ renderSync();
+ $('#d-recv-list').replaceChildren(...(recv.length?[...recv.map(r=>h('button',{type:'button',class:'li tap fi',onclick:()=>openForm('fees',r)},h('span',{class:'tx'},h('b',{text:clientName(r.client_id)}),' · '+(r.item||UNK),h('span',{style:{display:'block'}},h('span',{class:'badge b-amber',text:'청구 · '+md(r.billed_on)}),' ',gone(r))),h('span',{class:'dd',text:won(feeTotal(r))+'원'}))),
   h('div',{class:'sum'},h('span',{text:'합계(부가세 포함)'}),h('span',{class:'n',text:won(recvSum)+'원'}))]:[none('청구 후 입금 전인 수수료가 없습니다')]));
  const w0=monday(t),week=DB.schedules.filter(r=>!r.done&&r.date>=t&&r.date<=addDays(w0,6)).sort((a,b)=>a.date.localeCompare(b.date));
  strip($('#d-strip'),w0,()=>{location.hash='#schedule'});
@@ -899,7 +1016,7 @@ function renderDashboard(){
  const ac=$('#alarm-cnt');ac.hidden=!todo.length;ac.textContent=todo.length;
 }
 function renderAll(){
- renderClients();renderFees();renderPayouts();renderSchedules();renderInquiries();renderUploads();renderNotify();renderDashboard();
+ renderClients();renderFees();renderPayouts();renderSchedules();renderInquiries();renderUploads();renderNotify();renderNotice();renderDashboard();
  $$('[data-count]').forEach(b=>{const n=DB[b.dataset.count].length;b.textContent=n;b.hidden=!n});
  $$('.view').forEach(apply);
  if(!DB.marketing_uploads.length)$('#v-upload > .empty').classList.add('show');
@@ -939,8 +1056,8 @@ addEventListener('hashchange',route);
 let ly=scrollY;addEventListener('scroll',()=>{const y=scrollY,end=innerHeight+y>=document.documentElement.scrollHeight-4;$('#fab').classList.toggle('away',y>ly&&y>40&&!end);ly=y},{passive:true});
 
 // ───────── 로그인 → 2단계 인증(TOTP) → 데이터 화면 ─────────
-// 비밀번호 로그인(잊었을 때만 메일 링크) → 로그인된 뒤에만 DB를 부른다. 2단계 인증은 쓰지 않는다(대표님 11/1).
-// DB 쪽 is_owner()는 대표님 계정(uid+메일)만 허용하므로 화면을 건너뛰어도 남의 데이터 접근은 안 된다.
+// 비밀번호 로그인(잊었을 때만 메일 링크, aal1) → 인증 앱 숫자 확인(aal2) → 그때만 DB를 부른다.
+// DB 쪽 is_owner()도 aal2 를 요구하므로 화면을 건너뛰어도 데이터는 나오지 않는다.
 function redirectUrl(){return location.origin+location.pathname.replace(/index\.html$/,'')}
 function showOnly(id){['login','mfa','pw','app'].forEach(x=>$('#'+x).hidden=x!==id)}
 function showLogin(msg,err){
@@ -958,7 +1075,7 @@ function resetMfa(){
  $('#mfa-secret').textContent='';delete $('#mfa-secret').dataset.raw;$('#mfa-secret').hidden=true;$('#mfa-copy').hidden=true;$('#mfa-show').hidden=false;
  $('#mfa-code').value='';mfaMsg('');
 }
-function clearData(){Object.keys(DB).forEach(k=>DB[k]=[]);renderAll()}
+function clearData(){Object.keys(DB).forEach(k=>DB[k]=[]);NERR='';SERR='';renderAll()}
 function wipeLocalSession(){try{Object.keys(localStorage).filter(k=>/^sb-.+-auth-token/.test(k)).forEach(k=>localStorage.removeItem(k))}catch(e){}}
 async function logout(msg){
  phase='';mfa=null;clearData();resetMfa();$('#pw-new').value='';$('#pw-again').value='';showLogin(msg);
