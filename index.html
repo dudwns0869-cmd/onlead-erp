@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/ 'sha256-t2mJ3TSPxszjGGPjp6+BuZUjOHUNCmDnKCiLsrSTIb4='; style-src 'unsafe-inline'; img-src 'self' data:; connect-src https://gvgblzjefzcmdlrqhcdw.supabase.co; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/ 'sha256-ET+7ZhhwBvbq8bqgORvGj53fpv59HRhCu4c4md/y0NA='; style-src 'unsafe-inline'; img-src 'self' data:; connect-src https://gvgblzjefzcmdlrqhcdw.supabase.co; base-uri 'none'; form-action 'none'">
 <meta name="theme-color" content="#0f2d52">
 <!-- 배포 전 바꿀 자리표시자 2개(anon/publishable 키만. 서버용 비밀 키는 절대 넣지 않는다) -->
 <meta name="erp-supabase-url" content="https://gvgblzjefzcmdlrqhcdw.supabase.co">
@@ -23,7 +23,7 @@
 *{box-sizing:border-box;word-break:keep-all;overflow-wrap:break-word}
 [hidden]{display:none!important}
 html,body{margin:0;padding:0}
-body{font-family:"Pretendard","Malgun Gothic",sans-serif;font-size:16px;line-height:1.55;color:var(--text);background:var(--bg);-webkit-text-size-adjust:100%}
+body{font-family:"Pretendard","Malgun Gothic",sans-serif;font-size:16px;line-height:1.55;color:var(--text);background:var(--bg);-webkit-text-size-adjust:100%;overflow-x:hidden}
 button,input,select,textarea{font-family:inherit;font-size:16px;color:inherit}
 button{cursor:pointer}
 a{color:inherit;text-decoration:none}
@@ -32,7 +32,7 @@ b,strong,.n{font-weight:700;font-variant-numeric:tabular-nums}
 svg.i{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
 
 /* 배지: 진행 파랑·대기 회색/노랑·완료 초록·지연 빨강 */
-.badge{display:inline-flex;align-items:center;font-size:14px;font-weight:700;padding:1px 10px;border:1px solid;border-radius:999px;white-space:nowrap;line-height:1.5;font-variant-numeric:tabular-nums}
+.badge{display:inline-flex;align-items:center;font-size:14px;font-weight:700;padding:1px 10px;border:1px solid;border-radius:999px;white-space:nowrap;line-height:1.5;font-variant-numeric:tabular-nums;max-width:100%;min-width:0;overflow:hidden;text-overflow:ellipsis}
 .b-blue{background:#eaf1fe;border-color:#9dbcf7;color:#1d4ed8}
 .b-gray{background:#f3f4f6;border-color:#c9cdd3;color:#4b5563}
 .b-amber{background:#fff4e0;border-color:#f2c27a;color:#a14b06}
@@ -69,7 +69,7 @@ svg.i{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stro
 main{padding:12px 16px calc(var(--tab) + var(--sb) + 112px)}
 .wrap{max-width:720px;margin:0 auto}
 .notice{background:#fff8e8;border:1px solid #f2dfb4;color:#7a4f00;font-size:14px;border-radius:10px;padding:8px 12px;margin-bottom:12px}
-.view{display:none}
+.view{display:none;min-width:0;max-width:100%}
 .view.on{display:block}
 .vh{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:12px;margin:4px 0 16px}
 .vh>div{min-width:0}
@@ -133,7 +133,7 @@ h1{margin:0;font-size:24px;font-weight:800;letter-spacing:-.4px;line-height:1.3}
 .todo-row:has(input:checked) .tx{text-decoration:line-through;color:var(--muted)}
 .sum{display:flex;justify-content:space-between;gap:8px;font-weight:800;border-top:1px solid var(--line);padding-top:12px;margin-top:4px}
 
-.strip{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:12px}
+.strip{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin-bottom:12px}
 .sd{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:64px;min-width:0;background:#fff;border:1px solid var(--line);border-radius:12px;padding:4px 0 10px}
 .sd span{font-size:14px}
 .sd b{font-size:20px;font-weight:800;line-height:1.2}
@@ -141,15 +141,16 @@ h1{margin:0;font-size:24px;font-weight:800;letter-spacing:-.4px;line-height:1.3}
 .sd.today{background:var(--navy);border-color:var(--navy);color:#fff}
 .sd.today::after{background:#fff}
 
-.items{display:grid;gap:12px;margin-bottom:16px}
-.item{display:block;width:100%;text-align:left;background:#fff;border:0;border-radius:var(--r);box-shadow:var(--sh);padding:16px;font-size:16px;min-width:0}
+.items{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;margin-bottom:16px}
+.item{display:block;width:100%;text-align:left;background:#fff;border:0;border-radius:var(--r);box-shadow:var(--sh);padding:16px;font-size:16px;min-width:0;max-width:100%;overflow:hidden;overflow-wrap:anywhere}
 .item .top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
-.item .top>span:first-child{min-width:0}
+.item .top>span:first-child{flex:1;min-width:0}
+.item .stg{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;white-space:normal;border-radius:10px;margin-top:6px;width:fit-content;max-width:100%;overflow:hidden;line-height:1.45;padding:2px 10px}
 .item .nm{display:block;font-size:18px;font-weight:800}
 .item .ln{display:block;margin-top:4px}
 .item .muted{display:block}
 .item .bot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
-.kv{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.kv{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}
 .kv>*{display:block;background:var(--soft);border-radius:8px;padding:8px;min-width:0}
 .kv>*>span{display:block;font-size:16px;color:var(--muted)}
 .kv b{display:block;font-size:clamp(16px,4.4vw,17px);white-space:nowrap;letter-spacing:-.3px;overflow:hidden;text-overflow:ellipsis}
@@ -575,6 +576,7 @@ function tone(s){
  return 'b-blue';
 }
 const badge=s=>h('span',{class:'badge '+tone(s),text:s||UNK});
+const stageTag=s=>h('span',{class:'badge stg '+tone(s),text:s||UNK,title:s||UNK});   // 긴 진행 상태는 2줄까지, 넘치면 말줄임
 
 // ───────── 연결 설정(자리표시자는 meta 에서 읽는다 — 스크립트 지문이 바뀌지 않게) ─────────
 const CFG={url:$('meta[name="erp-supabase-url"]').content.trim(),key:$('meta[name="erp-supabase-anon-key"]').content.trim()};
@@ -747,7 +749,7 @@ function renderClients(){
  const m=count(rows,'stage');
  chips('clients',[['전체',rows.length],...[...m].sort((a,b)=>b[1]-a[1])],'전체');
  $('#l-clients').replaceChildren(...rows.map(r=>h('button',{type:'button',class:'item fi',data:{t:r.stage||UNK},onclick:()=>openForm('clients',r)},
-  h('span',{class:'top'},h('span',null,h('span',{class:'nm',text:r.name}),h('span',{class:'muted',text:r.program||UNK})),badge(r.stage)),
+  h('span',{class:'top'},h('span',null,h('span',{class:'nm',text:r.name}),h('span',{class:'muted',text:r.program||UNK}),stageTag(r.stage))),
   h('span',{class:'ln',text:'다음 할 일 · '+(r.next_action||UNK)}),
   h('span',{class:'bot'},r.status==='종료'?h('span',{class:'muted',text:'마감 —'}):dday(r.due),h('span',{class:'muted',text:'요율 '+(r.fee_rate||UNK)}),r.status&&r.status!=='진행'?badge(r.status):null))));
  const act=rows.filter(r=>r.status!=='종료').length;
