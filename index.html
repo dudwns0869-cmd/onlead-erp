@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/ 'sha256-THgGa2GgFZSnPCw3olm+tiL2h4+6lqq6YmjZY5wl8vQ='; style-src 'unsafe-inline'; img-src 'self' data:; manifest-src 'self'; connect-src https://gvgblzjefzcmdlrqhcdw.supabase.co; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/ 'sha256-iE1uW4sLPAmfo+4DTgPYJYDEBJBk8kjfLPI1wX0yxeE='; style-src 'unsafe-inline'; img-src 'self' data:; manifest-src 'self'; connect-src https://gvgblzjefzcmdlrqhcdw.supabase.co; base-uri 'none'; form-action 'none'">
 <meta name="theme-color" content="#0f2d52">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -261,6 +261,22 @@ h1{margin:0;font-size:24px;font-weight:800;letter-spacing:-.4px;line-height:1.3}
 .sync{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;font-size:14px;color:var(--muted);margin-top:2px;font-variant-numeric:tabular-nums}
 .sync .sm{flex-basis:100%;font-size:14px;color:#b42323}
 .tag.gone{background:#f3f4f6;border-color:#d1d5db;color:#6b7280}
+/* 받을 돈 중 원본 없음(회색 줄) */
+.gn{display:block;font-size:14px;font-weight:600;color:#6b7280}
+.bc.money .gn{color:#cbd2dc}
+.sum.gn{display:flex;font-weight:600;border-top:0;padding-top:4px;margin-top:0}
+/* 카톡 안내 초안(보기·복사만) */
+.kk{display:block;margin-top:8px;border:1px solid var(--line);border-radius:10px;padding:0 12px;background:#fff;min-width:0}
+.kk summary{display:flex;align-items:center;gap:8px;min-height:44px;font-size:15px;font-weight:700;cursor:pointer;list-style:none}
+.kk summary::-webkit-details-marker{display:none}
+.kk summary::after{content:"▾";margin-left:auto;color:var(--muted)}
+.kk[open] summary::after{content:"▴"}
+.kk .kt{display:block;white-space:pre-wrap;overflow-wrap:anywhere;font-size:15px;line-height:1.6;padding:10px 0;border-top:1px dashed var(--line)}
+.kk .kc{width:100%;min-height:44px;margin:2px 0 8px}
+.kk .muted{display:block;font-size:14px;padding-bottom:10px}
+.cn{border-bottom:1px solid var(--line);padding-bottom:8px}
+.cn:last-of-type{border-bottom:0}
+.cn>.li{border-bottom:0}
 .item .mt{display:block;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
 .item .mh{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
 .fx:not(:empty){background:var(--soft);border-radius:var(--r-s);padding:4px 12px 8px;margin-bottom:8px}
@@ -673,7 +689,7 @@ const DB=Object.fromEntries(Object.keys(T).map(k=>[k,[]]));
 const NT={
  matches:'notice_matches',
  // 높음·보통 매칭만, 필요한 칸만 + 공고는 notice_id 외래키로 함께(요청 1번)
- matchCols:'notice_id,client_name,likelihood,unknowns,mismatches,url,notices(id,title,org,url,deadline,checked_on)',
+ matchCols:'notice_id,client_name,likelihood,unknowns,mismatches,url,kakao_draft,notices(id,title,org,url,deadline,checked_on)',
  matchLimit:500,
  sync:'sync_runs',syncCols:'kind,last_success_at,last_attempt_at,ok,summary,fail_streak,changed_n,collected_n,matched_n',
  // [kind 값, 시각 앞 글, 실패 글, 성공 뒤 이만큼 지나면 경고(ms), 경고 글]
@@ -819,10 +835,10 @@ function renderFees(){
  const by=s=>rows.filter(r=>r.status===s);
  chips('money',[['전체',rows.length],...['예상','청구','입금','발행',UNK].map(s=>[s,by(s).length]).filter(c=>c[1])],'전체');
  const sum=(a,f)=>a.reduce((x,r)=>x+f(r),0);
- const paidMon=rows.filter(r=>(r.paid_on||'').startsWith(mon));
+ const paidMon=rows.filter(r=>(r.paid_on||'').startsWith(mon)),cg=by('청구').filter(r=>r[NT.missing]===true);   // 원본 없음도 합계에 넣고 따로 적는다
  $('#k-money').replaceChildren(
   kpi('예상',won(sum(by('예상'),r=>r.supply_amount||0)),'원',by('예상').length+'건 · 공급가 · 청구 전'),
-  kpi('청구(입금 대기)',won(sum(by('청구'),feeTotal)),'원',by('청구').length+'건 · 부가세 포함'),
+  kpi('청구(입금 대기)',won(sum(by('청구'),feeTotal)),'원',by('청구').length+'건 · 부가세 포함'+(cg.length?' · 그중 원본 없음 '+cg.length+'건 '+won(sum(cg,feeTotal))+'원':'')),
   kpi(Number(mon.slice(5))+'월 입금',won(sum(paidMon,feeTotal)),'원',paidMon.length+'건 · 부가세 포함'),
   kpi('계산서 발행 대기',rows.filter(r=>r.status==='입금'&&!r.invoice_issued).length,'건','입금 확인 후 발행'));
  const steps=['예상','청구','입금','발행'],cls=['b-gray','b-amber','b-blue','b-green'];
@@ -949,7 +965,7 @@ function renderNotice(){
   return h('div',{class:'item fi',data:{t:tags[i].join('|')}},
    h('span',{class:'top'},h('span',null,h('span',{class:'nm',text:n.title||n.id}),h('span',{class:'muted',text:n.org||UNK})),dday(n.deadline)),
    ms.map(m=>h('span',{class:'mt'},h('span',{class:'mh'},h('b',{text:m.client_name||UNK}),lkBadge(m.likelihood)),
-    h('span',{class:'ln',text:'확인할 것 · '+toCheck(m)}))),
+    h('span',{class:'ln',text:'확인할 것 · '+toCheck(m)}),kakaoBox(m))),
    h('span',{class:'bot'},srcLink(safeUrl(n.url,...ms.map(m=>m.url))),h('span',{class:'muted',text:'확인 '+md(n.checked_on)})));
  }));
  $('#s-notice').textContent=NERR?'공고 표를 읽지 못했습니다: '+NERR:rows.length?`공고 ${rows.length}건(높음·보통 매칭) · 가능성일 뿐 선정 보장 아님`:'';
@@ -957,13 +973,29 @@ function renderNotice(){
 }
 // 확인할 것 = 확인 필요한 조건 + 안 맞는 조건
 const toCheck=m=>[m.unknowns,m.mismatches?'안 맞는 조건: '+m.mismatches:''].filter(x=>x&&x!=='없음'&&x!=='안 맞는 조건: 없음').join(' / ')||'없음';
+// 카톡 안내 초안(PC 공고 매칭이 템플릿으로 만든 글, 높음·보통만) — 보기·복사만, 보내기 기능 없음
+const BEAR_HEAD='[더베어 명의]\n';
+function copyText(s){
+ const no=()=>toast('복사하지 못했습니다. 글을 길게 눌러 직접 복사해 주세요');
+ if(!navigator.clipboard||!navigator.clipboard.writeText){no();return}
+ navigator.clipboard.writeText(s).then(()=>toast('복사했습니다'),no);
+}
+function kakaoBox(m){
+ const t=typeof m.kakao_draft==='string'?m.kakao_draft.trim():'';if(!t)return null;
+ const body=t.startsWith(BEAR_HEAD)?t.slice(BEAR_HEAD.length):t;   // 머리표는 화면 꼬리표로만, 복사 글은 '대표님 안녕하세요.'부터
+ const bear=body!==t||(DB.clients.find(c=>c.name===m.client_name)||{}).brand==='더베어';
+ return h('details',{class:'kk'},h('summary',null,'카톡 안내 초안',bear?h('span',{class:'tag nv',text:'[더베어 명의]'}):null),
+  h('span',{class:'kt',text:body}),
+  h('button',{type:'button',class:'btn-line kc',onclick:()=>copyText(body)},'복사'),
+  h('span',{class:'muted',text:'복사만 됩니다. 보내기는 카톡에서 직접 합니다.'}));
+}
 // 고객사 상세(고치기 창) 안: 그 업체에 높음·보통으로 매칭된 공고
 function clientNotices(c){
  const list=matchRows(m=>m.client_name===c.name&&hiMid(m));
  return [h('div',{class:'ch'},h('h3',{text:'매칭된 공고 '+list.length+'건'}),h('a',{class:'lnk',href:'#notice',text:'공고 ›'})),
-  ...(list.length?list.map(([m,n])=>h('div',{class:'li'},dday(n.deadline),
+  ...(list.length?list.map(([m,n])=>h('div',{class:'cn'},h('div',{class:'li'},dday(n.deadline),
    h('span',{class:'tx'},h('span',{text:n.title||n.id}),h('span',{style:{display:'flex',flexWrap:'wrap',gap:'6px',marginTop:'4px'}},lkBadge(m.likelihood))),
-   srcLink(safeUrl(m.url,n.url)))):[h('div',{class:'muted',style:{padding:'8px 0'},text:'높음·보통으로 매칭된 공고가 없습니다'})]),
+   srcLink(safeUrl(m.url,n.url))),kakaoBox(m))):[h('div',{class:'muted',style:{padding:'8px 0'},text:'높음·보통으로 매칭된 공고가 없습니다'})]),
   h('div',{class:'muted',style:{fontSize:'14px'},text:'가능성일 뿐 선정 보장 아님'})];
 }
 // 마지막 동기화 시각(대시보드 위)
@@ -999,7 +1031,10 @@ function renderDashboard(){
  $('#d-date').textContent=`${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일 ${WD[d.getDay()]}요일`;
  $('#d-hello').textContent=`대표님, 오늘 할 일 ${todo.length}건 · 마감 임박 ${due.length}건이 있습니다`;
  $('#d-today').textContent=todo.length;$('#d-due').textContent=due.length;$('#d-recv').textContent=won(recvSum);
- $('#d-recv-s').textContent=recv.length+'건 · 부가세 포함 · 수수료 ›';
+ // 원본 없음 줄도 합계에는 넣고, 회색으로 따로 보인다(11/1 대표님 결정 ①)
+ const recvGone=recv.filter(r=>r[NT.missing]===true),goneSum=recvGone.reduce((x,r)=>x+feeTotal(r),0);
+ const goneLine=cls=>recvGone.length?h('span',{class:cls,text:'그중 원본 없음 '+recvGone.length+'건 '+won(goneSum)+'원'}):null;
+ $('#d-recv-s').replaceChildren(recv.length+'건 · 부가세 포함 · 수수료 ›',goneLine('gn'));
  $('#d-tax').textContent=DB.freelancer_payouts.filter(r=>!r.reported).length;
  const none=m=>h('div',{class:'muted',style:{padding:'12px 0'},text:m});
  $('#d-today-list').replaceChildren(...(todo.length?todo.map(r=>h('div',{class:'fi'},schedRow(r,false))):[none('오늘 할 일이 없습니다')]));
@@ -1009,7 +1044,8 @@ function renderDashboard(){
   h('span',{class:'tx'},h('b',{text:m.client_name||UNK}),' · '+(n.title||n.id),h('span',{style:{display:'block'}},lkBadge(m.likelihood))))):[none(NERR?'공고 표를 읽지 못했습니다':'7일 안 마감인 높음·보통 공고가 없습니다')]));
  renderSync();
  $('#d-recv-list').replaceChildren(...(recv.length?[...recv.map(r=>h('button',{type:'button',class:'li tap fi',onclick:()=>openForm('fees',r)},h('span',{class:'tx'},h('b',{text:clientName(r.client_id)}),' · '+(r.item||UNK),h('span',{style:{display:'block'}},h('span',{class:'badge b-amber',text:'청구 · '+md(r.billed_on)}),' ',gone(r))),h('span',{class:'dd',text:won(feeTotal(r))+'원'}))),
-  h('div',{class:'sum'},h('span',{text:'합계(부가세 포함)'}),h('span',{class:'n',text:won(recvSum)+'원'}))]:[none('청구 후 입금 전인 수수료가 없습니다')]));
+  h('div',{class:'sum'},h('span',{text:'합계(부가세 포함)'}),h('span',{class:'n',text:won(recvSum)+'원'})),
+  recvGone.length?h('div',{class:'sum gn'},h('span',{text:'그중 원본 없음 '+recvGone.length+'건'}),h('span',{text:won(goneSum)+'원'})):null].filter(Boolean):[none('청구 후 입금 전인 수수료가 없습니다')]));
  const w0=monday(t),week=DB.schedules.filter(r=>!r.done&&r.date>=t&&r.date<=addDays(w0,6)).sort((a,b)=>a.date.localeCompare(b.date));
  strip($('#d-strip'),w0,()=>{location.hash='#schedule'});
  $('#d-week-list').replaceChildren(...(week.length?week.map(r=>h('button',{type:'button',class:'li tap fi',onclick:()=>openForm('schedules',r)},h('span',{class:'dd',style:{width:'92px'},text:md(r.date)+'('+wd(r.date)+')'}),h('span',{class:'tx'},r.at_time?h('b',{text:String(r.at_time).slice(0,5)+' '}):null,r.title))):[none('남은 이번 주 일정이 없습니다')]));
