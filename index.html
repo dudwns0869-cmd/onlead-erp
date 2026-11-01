@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/ 'sha256-IIGi/Ut+dnmWYrSb/YgEUazRiXH4LagG3mHKrlkHQsM='; style-src 'unsafe-inline'; img-src 'self' data:; connect-src https://gvgblzjefzcmdlrqhcdw.supabase.co; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/ 'sha256-sYTpQ9XirZmbj1ElDrvZGoihCsaHDXr6uSRaUeJBcz8='; style-src 'unsafe-inline'; img-src 'self' data:; connect-src https://gvgblzjefzcmdlrqhcdw.supabase.co; base-uri 'none'; form-action 'none'">
 <meta name="theme-color" content="#0f2d52">
 <!-- 배포 전 바꿀 자리표시자 2개(anon/publishable 키만. 서버용 비밀 키는 절대 넣지 않는다) -->
 <meta name="erp-supabase-url" content="https://gvgblzjefzcmdlrqhcdw.supabase.co">
@@ -120,6 +120,10 @@ h1{margin:0;font-size:24px;font-weight:800;letter-spacing:-.4px;line-height:1.3}
 
 .li{display:flex;align-items:center;gap:12px;min-height:56px;padding:10px 0;border-bottom:1px solid var(--line)}
 .li:last-child{border-bottom:0}
+.li.tap{width:100%;background:none;border-width:0 0 1px;border-style:solid;border-color:var(--line);text-align:left;font:inherit;color:inherit;cursor:pointer}
+.li.tap:last-child{border-bottom-width:0}
+.li.tap::after{content:"›";flex:none;color:var(--muted);font-size:20px}
+.todo-row .cbx{display:flex;align-items:center;justify-content:center;width:44px;height:44px;margin:-8px}
 .li>.tx{flex:1;min-width:0}
 .li .dd{flex:none;font-weight:700;font-variant-numeric:tabular-nums}
 .todo-row{display:grid;grid-template-columns:28px 1fr;column-gap:12px;row-gap:6px;align-items:center;min-height:56px;padding:10px 0;border-bottom:1px solid var(--line);cursor:pointer}
@@ -210,7 +214,7 @@ h1{margin:0;font-size:24px;font-weight:800;letter-spacing:-.4px;line-height:1.3}
 .fab.away{transform:translateY(16px);opacity:0;pointer-events:none}
 .fab svg{width:28px;height:28px;stroke-width:2.4}
 
-.mask{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:90}
+.mask{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:90;cursor:pointer}
 .mask.open{display:block}
 .sheet{display:none;position:fixed;left:0;right:0;bottom:0;z-index:95;background:#fff;border-radius:20px 20px 0 0;padding:8px 16px calc(16px + var(--sb));max-height:88vh;overflow-y:auto}
 .sheet.open{display:block}
@@ -784,8 +788,9 @@ function schedTags(r,t){
 }
 function schedRow(r,withDate){
  const cb=h('input',{type:'checkbox'});cb.checked=!!r.done;cb.addEventListener('change',()=>toggleDone(r,cb.checked));
- const edit=h('button',{type:'button',class:'lnk',text:'고치기',onclick:e=>{e.preventDefault();openForm('schedules',r)}});
- return h('label',{class:'todo-row'},cb,h('span',{class:'tx',text:(withDate?md(r.date)+'('+wd(r.date)+') ':'')+r.title}),
+ // 체크칸만 완료를 바꾸고, 줄의 나머지(글자·고치기)를 누르면 고치기 창이 열린다
+ const edit=h('button',{type:'button',class:'lnk',text:'고치기'});
+ return h('div',{class:'todo-row',onclick:e=>{if(!e.target.closest('.cbx'))openForm('schedules',r)}},h('label',{class:'cbx'},cb),h('span',{class:'tx',text:(withDate?md(r.date)+'('+wd(r.date)+') ':'')+r.title}),
   h('span',{class:'tags'},h('span',{class:'tag',text:r.category||'기타'}),h('span',{class:'tag nv',text:r.at_time?'텔레그램 '+String(r.at_time).slice(0,5):'아침 보고 08:30'}),edit));
 }
 function strip(box,start,onPick){
@@ -799,7 +804,7 @@ function renderSchedules(){
  const tags=rows.map(r=>schedTags(r,t)),c=v=>tags.filter(x=>x.split('|').includes(v)).length;
  chips('schedule',['오늘','이번 주','다음 주','지난 미완료','앞으로 전체','완료','전체'].map(v=>[v,v==='전체'?rows.length:c(v)]),'이번 주');
  const w0=monday(t);$('#t-week').textContent=`이번 주 (${md(w0)} ~ ${md(addDays(w0,6))})`;
- strip($('#s-strip'),w0,d=>{const g=$('#g-'+d);if(g&&!g.hidden)g.scrollIntoView({behavior:'smooth'})});
+ strip($('#s-strip'),w0,d=>{const g=$('#g-'+d);if(g&&!g.hidden)g.scrollIntoView({behavior:'smooth'});else toast(md(d)+' 할 일이 지금 목록에 없습니다')});
  const groups=new Map();rows.forEach((r,i)=>{if(!groups.has(r.date))groups.set(r.date,[]);groups.get(r.date).push([r,tags[i]])});
  $('#l-schedules').replaceChildren(...[...groups].map(([d,list])=>h('div',{class:'grp',id:'g-'+d},
   h('div',{class:'gh'},h('h4',null,wd(d)+' '+d,d===t?h('em',{text:'오늘'}):null),h('span',{class:'c',text:list.length+'건'})),
@@ -858,12 +863,12 @@ function renderDashboard(){
  $('#d-tax').textContent=DB.freelancer_payouts.filter(r=>!r.reported).length;
  const none=m=>h('div',{class:'muted',style:{padding:'12px 0'},text:m});
  $('#d-today-list').replaceChildren(...(todo.length?todo.map(r=>h('div',{class:'fi'},schedRow(r,false))):[none('오늘 할 일이 없습니다')]));
- $('#d-due-list').replaceChildren(...(due.length?due.map(r=>h('div',{class:'li fi'},dday(r.due),h('span',{class:'tx',text:r.name+' · '+(r.next_action||UNK)}))):[none('7일 안 마감이 없습니다')]));
- $('#d-recv-list').replaceChildren(...(recv.length?[...recv.map(r=>h('div',{class:'li fi'},h('div',{class:'tx'},h('b',{text:clientName(r.client_id)}),' · '+(r.item||UNK),h('div',null,h('span',{class:'badge b-amber',text:'청구 · '+md(r.billed_on)}))),h('span',{class:'dd',text:won(feeTotal(r))+'원'}))),
+ $('#d-due-list').replaceChildren(...(due.length?due.map(r=>h('button',{type:'button',class:'li tap fi',onclick:()=>openForm('clients',r)},dday(r.due),h('span',{class:'tx',text:r.name+' · '+(r.next_action||UNK)}))):[none('7일 안 마감이 없습니다')]));
+ $('#d-recv-list').replaceChildren(...(recv.length?[...recv.map(r=>h('button',{type:'button',class:'li tap fi',onclick:()=>openForm('fees',r)},h('span',{class:'tx'},h('b',{text:clientName(r.client_id)}),' · '+(r.item||UNK),h('span',{style:{display:'block'}},h('span',{class:'badge b-amber',text:'청구 · '+md(r.billed_on)}))),h('span',{class:'dd',text:won(feeTotal(r))+'원'}))),
   h('div',{class:'sum'},h('span',{text:'합계(부가세 포함)'}),h('span',{class:'n',text:won(recvSum)+'원'}))]:[none('청구 후 입금 전인 수수료가 없습니다')]));
  const w0=monday(t),week=DB.schedules.filter(r=>!r.done&&r.date>=t&&r.date<=addDays(w0,6)).sort((a,b)=>a.date.localeCompare(b.date));
  strip($('#d-strip'),w0,()=>{location.hash='#schedule'});
- $('#d-week-list').replaceChildren(...(week.length?week.map(r=>h('div',{class:'li fi'},h('span',{class:'dd',style:{width:'92px'},text:md(r.date)+'('+wd(r.date)+')'}),h('span',{class:'tx'},r.at_time?h('b',{text:String(r.at_time).slice(0,5)+' '}):null,r.title))):[none('남은 이번 주 일정이 없습니다')]));
+ $('#d-week-list').replaceChildren(...(week.length?week.map(r=>h('button',{type:'button',class:'li tap fi',onclick:()=>openForm('schedules',r)},h('span',{class:'dd',style:{width:'92px'},text:md(r.date)+'('+wd(r.date)+')'}),h('span',{class:'tx'},r.at_time?h('b',{text:String(r.at_time).slice(0,5)+' '}):null,r.title))):[none('남은 이번 주 일정이 없습니다')]));
  const ac=$('#alarm-cnt');ac.hidden=!todo.length;ac.textContent=todo.length;
 }
 function renderAll(){
