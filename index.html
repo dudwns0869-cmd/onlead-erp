@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/ 'sha256-iE1uW4sLPAmfo+4DTgPYJYDEBJBk8kjfLPI1wX0yxeE='; style-src 'unsafe-inline'; img-src 'self' data:; manifest-src 'self'; connect-src https://gvgblzjefzcmdlrqhcdw.supabase.co; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/ 'sha256-/sX2h/LleYhtBafaublRMjatzLEq3nuHgU6rNbi0+6o='; style-src 'unsafe-inline'; img-src 'self' data:; manifest-src 'self'; connect-src https://gvgblzjefzcmdlrqhcdw.supabase.co; base-uri 'none'; form-action 'none'">
 <meta name="theme-color" content="#0f2d52">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -277,6 +277,22 @@ h1{margin:0;font-size:24px;font-weight:800;letter-spacing:-.4px;line-height:1.3}
 .cn{border-bottom:1px solid var(--line);padding-bottom:8px}
 .cn:last-of-type{border-bottom:0}
 .cn>.li{border-bottom:0}
+/* 광고 소재 고르기(사용·보류·수정 요청) — 광고 켜기·결제 없음 */
+.ad .imgs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.ad .imgs a{display:flex;flex-direction:column;gap:4px;font-size:14px;color:var(--muted);min-width:0}
+.ad .imgs img{display:block;width:100%;height:180px;object-fit:contain;background:#14181F;border-radius:10px}
+.ad .hl{display:block;font-size:16px;font-weight:700;margin-top:6px}
+.ad .idea{display:block;font-size:14px;color:var(--muted);margin-top:4px;overflow-wrap:anywhere}
+.ad .pick{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
+.ad .pick button{min-height:44px;padding:0 4px;font-size:15px}
+.ad .pick button.on{background:var(--navy);color:#fff}
+.ad .memo{display:block;margin-top:8px}
+.ad .memo textarea{width:100%;min-height:88px}
+.ad .memo .btn{width:100%;margin-top:6px}
+.ad .when{display:block;font-size:13px;color:var(--muted);margin-top:6px}
+.files a{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:52px;border-bottom:1px solid var(--line);font-weight:700}
+.files a:last-child{border-bottom:0}
+.files a small{font-weight:500;color:var(--muted);font-size:13px}
 .item .mt{display:block;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
 .item .mh{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
 .fx:not(:empty){background:var(--soft);border-radius:var(--r-s);padding:4px 12px 8px;margin-bottom:8px}
@@ -399,6 +415,7 @@ h1{margin:0;font-size:24px;font-weight:800;letter-spacing:-.4px;line-height:1.3}
  <a href="#upload">업로드·월보고<span class="badge b-gray" data-count="marketing_uploads"></span></a>
  <div class="grp-t">기타</div>
  <a href="#notify">알림 파일 미리보기</a>
+ <a href="#ads">광고</a>
  <a href="#more">더보기</a>
  <div class="foot">온리드파트너스 ERP</div>
 </nav>
@@ -517,6 +534,23 @@ h1{margin:0;font-size:24px;font-weight:800;letter-spacing:-.4px;line-height:1.3}
  <div class="muted" id="s-notice"></div>
 </section>
 
+<!-- 광고(소재 고르기·자료 보기 — 광고 켜기·결제·신청 연결 없음) -->
+<section class="view" id="v-ads">
+ <a class="back" href="#more">‹ 더보기</a>
+ <div class="vh"><div><h1>광고</h1><div class="st2">메타 광고 2주 시험 · 소재 3종 고르기 (광고 켜기·결제는 여기서 하지 않음)</div></div></div>
+ <div class="items" id="l-ads"></div>
+ <div class="muted" id="s-ads"></div>
+ <div class="card files">
+  <div class="ch"><h3>랜딩 페이지 미리보기 <small>휴대폰 360px 그림 · 신청 연결 안 됨</small></h3></div>
+  <a href="ads/landing_1.png" target="_blank" rel="noopener noreferrer"><span>1쪽 <small>첫 화면·직원 수</small></span><span class="ch2">›</span></a>
+  <a href="ads/landing_2.png" target="_blank" rel="noopener noreferrer"><span>2쪽 <small>신청 칸</small></span><span class="ch2">›</span></a>
+  <a href="ads/landing_3.png" target="_blank" rel="noopener noreferrer"><span>3쪽 <small>동의·신청 버튼</small></span><span class="ch2">›</span></a>
+  <a href="ads/landing_4.png" target="_blank" rel="noopener noreferrer"><span>4쪽 <small>안전문구·회사 정보</small></span><span class="ch2">›</span></a>
+ </div>
+ <div class="muted">기획안(예산·목표 수치)과 2주 점검표는 공개 저장소라 올리지 않았습니다 — PC 드라이브 '온리드_메타광고_1101' 폴더에 있습니다.</div>
+ <div class="muted">랜딩 빈칸(확인 필요): 사업자등록번호, 개인정보처리방침 주소. 시작일·랜딩 주소·메타 픽셀은 대표님이 정할 것.</div>
+</section>
+
 <!-- 더보기 -->
 <section class="view" id="v-more">
  <div class="vh"><div><h1>더보기</h1><div class="st2">전체 메뉴</div></div></div>
@@ -536,6 +570,7 @@ h1{margin:0;font-size:24px;font-weight:800;letter-spacing:-.4px;line-height:1.3}
  <div class="card menu">
   <div class="grp-t">마케팅 운영</div>
   <a href="#upload"><span class="l">업로드·월보고</span><span class="ch2">›</span></a>
+  <a href="#ads"><span class="l">광고</span><span class="ch2">›</span></a>
  </div>
  <div class="card menu">
   <div class="grp-t">내 정보</div>
@@ -696,9 +731,9 @@ const NT={
  syncKinds:[['동기화','마지막 동기화','동기화 실패',30*60*1000,'동기화 30분 넘게 멈춤'],['공고','공고','공고 동기화 실패',26*3600*1000,'공고 26시간 넘게 멈춤']],
  missing:'source_missing', // 원본에서 사라진 항목(칸이 없으면 무시)
  failWarn:3};
-DB.notices=[];DB.notice_matches=[];DB.sync_runs=[];let NERR='',SERR='';
+DB.notices=[];DB.notice_matches=[];DB.sync_runs=[];DB.ad_creatives=[];let NERR='',SERR='',AERR='';
 const VIEW_TABLE={dashboard:'schedules',clients:'clients',money:'fees',freelancer:'freelancer_payouts',schedule:'schedules',marketing:'marketing_inquiries',upload:'marketing_uploads'};
-const TAB={freelancer:'money',upload:'marketing',notify:'schedule',notice:'more'};
+const TAB={freelancer:'money',upload:'marketing',notify:'schedule',notice:'more',ads:'more'};
 const clientName=id=>(DB.clients.find(c=>c.id===id)||{}).name||'고객사 미지정';
 
 // ───────── 불러오기·저장 ─────────
@@ -712,9 +747,11 @@ async function loadAll(){
 }
 // 공고·매칭·동기화 기록: 표가 아직 없거나 오류여도 다른 화면은 그대로 두고 빈 목록으로
 async function loadRead(){
- const [ms,ss]=await Promise.all([
+ const [ms,ss,as]=await Promise.all([
   sb.from(NT.matches).select(NT.matchCols).in('likelihood',['높음','보통']).order('checked_on',{ascending:false}).limit(NT.matchLimit),
-  sb.from(NT.sync).select(NT.syncCols).limit(20)]);
+  sb.from(NT.sync).select(NT.syncCols).limit(20),
+  sb.from('ad_creatives').select('id,name,status,memo,updated_at').order('id').limit(10)]);
+ AERR=as.error?as.error.message||'오류':'';DB.ad_creatives=as.error?[]:as.data||[];
  NERR=ms.error?ms.error.message||'오류':'';SERR=ss.error?ss.error.message||'오류':'';
  const rows=ms.error?[]:ms.data||[],nm=new Map();
  rows.forEach(r=>{if(r.notices&&!nm.has(r.notices.id))nm.set(r.notices.id,r.notices)});
@@ -1051,8 +1088,40 @@ function renderDashboard(){
  $('#d-week-list').replaceChildren(...(week.length?week.map(r=>h('button',{type:'button',class:'li tap fi',onclick:()=>openForm('schedules',r)},h('span',{class:'dd',style:{width:'92px'},text:md(r.date)+'('+wd(r.date)+')'}),h('span',{class:'tx'},r.at_time?h('b',{text:String(r.at_time).slice(0,5)+' '}):null,r.title))):[none('남은 이번 주 일정이 없습니다')]));
  const ac=$('#alarm-cnt');ac.hidden=!todo.length;ac.textContent=todo.length;
 }
+// ───────── 광고 소재 고르기(ad_creatives 표: 상태·메모만 고침, 넣기·지우기 없음) ─────────
+// 그림·문안은 저장소 ads/ 폴더(온리드_메타광고_1101 작업 39 최종본). 광고 켜기·결제·랜딩 신청 연결은 없다.
+const ADS={
+ A:{t:'순서형',hl:'융자보다 지원사업부터 살펴보세요',idea:'정책자금(융자)부터 찾는 대표에게 지원사업부터 보는 순서를 알림 · 보는 지표: 클릭률·클릭당 비용'},
+ B:{t:'직원 교육형',hl:'직원 교육에도 지원사업이 있습니다',idea:'신입 교육을 대표가 직접 하는 1-9명 회사 · 보는 지표: 0명 안내 비율·상담 성사'},
+ C:{t:'먼저 보는 조건형',hl:'직원 수·업력·업종부터 봅니다',idea:'상담 전에 보는 조건을 먼저 보여 부담을 줄임 · 보는 지표: 신청 전환율·신청당 비용'}};
+const AD_ST=['사용','보류','수정 요청'],adTone=s=>s==='사용'?'b-green':s==='수정 요청'?'b-amber':'b-gray';
+async function saveAd(id,row){
+ if(phase!=='app')return false;
+ const {error}=await sb.from('ad_creatives').update(row).eq('id',id);
+ if(error){toast('저장 실패: '+error.message);return false}
+ toast('저장했습니다');await loadAll();return true;
+}
+function renderAds(){
+ $('#l-ads').replaceChildren(...DB.ad_creatives.filter(r=>ADS[r.id]).map(r=>{
+  const a=ADS[r.id],img=k=>h('a',{href:'ads/creative_'+r.id+'_'+k+'.png',target:'_blank',rel:'noopener noreferrer'},
+   h('img',{src:'ads/creative_'+r.id+'_'+k+'.png',alt:'소재 '+r.id+' '+k.replace('x',':'),loading:'lazy'}),k.replace('x',':')+' 크게 보기 ›');
+  const memo=h('textarea',{class:'in',maxlength:1000,placeholder:'무엇을 고칠지 적어 주세요','aria-label':'소재 '+r.id+' 수정 요청 메모'});memo.value=r.memo||'';
+  const box=h('span',{class:'memo',hidden:r.status!=='수정 요청'},memo,
+   h('button',{type:'button',class:'btn',onclick:async e=>{const v=memo.value.trim();if(!v){toast('고칠 내용을 적어 주세요');memo.focus();return}
+    const b=e.currentTarget;b.disabled=true;const ok=await saveAd(r.id,{status:'수정 요청',memo:v});if(!ok)b.disabled=false}},'수정 요청 저장'));
+  return h('div',{class:'item ad'},
+   h('span',{class:'top'},h('span',null,h('span',{class:'nm',text:'소재 '+r.id+' · '+a.t}),h('span',{class:'muted',text:r.name||''})),h('span',{class:'badge '+adTone(r.status),text:r.status||'미정'})),
+   h('span',{class:'hl',text:a.hl}),h('span',{class:'idea',text:a.idea}),
+   h('span',{class:'imgs'},img('1x1'),img('9x16')),
+   r.status!=='수정 요청'&&r.memo?h('span',{class:'idea',text:'메모 · '+r.memo}):null,
+   h('span',{class:'pick'},...AD_ST.map(s=>h('button',{type:'button',class:'btn-line'+(r.status===s?' on':''),'aria-pressed':String(r.status===s),
+    onclick:()=>{if(s==='수정 요청'){box.hidden=false;memo.focus();return}if(r.status!==s)saveAd(r.id,{status:s})}},s))),
+   box,h('span',{class:'when',text:'마지막 변경 '+syncTime(r.updated_at)}));
+ }));
+ $('#s-ads').textContent=AERR?'광고 표를 읽지 못했습니다: '+AERR:DB.ad_creatives.length?'고른 결과는 ERP에만 저장됩니다. 광고 관리자 입력은 대표님이 직접 합니다.':'광고 소재 표가 비어 있습니다';
+}
 function renderAll(){
- renderClients();renderFees();renderPayouts();renderSchedules();renderInquiries();renderUploads();renderNotify();renderNotice();renderDashboard();
+ renderClients();renderFees();renderPayouts();renderSchedules();renderInquiries();renderUploads();renderNotify();renderNotice();renderAds();renderDashboard();
  $$('[data-count]').forEach(b=>{const n=DB[b.dataset.count].length;b.textContent=n;b.hidden=!n});
  $$('.view').forEach(apply);
  if(!DB.marketing_uploads.length)$('#v-upload > .empty').classList.add('show');
@@ -1111,7 +1180,7 @@ function resetMfa(){
  $('#mfa-secret').textContent='';delete $('#mfa-secret').dataset.raw;$('#mfa-secret').hidden=true;$('#mfa-copy').hidden=true;$('#mfa-show').hidden=false;
  $('#mfa-code').value='';mfaMsg('');
 }
-function clearData(){Object.keys(DB).forEach(k=>DB[k]=[]);NERR='';SERR='';renderAll()}
+function clearData(){Object.keys(DB).forEach(k=>DB[k]=[]);NERR='';SERR='';AERR='';renderAll()}
 function wipeLocalSession(){try{Object.keys(localStorage).filter(k=>/^sb-.+-auth-token/.test(k)).forEach(k=>localStorage.removeItem(k))}catch(e){}}
 async function logout(msg){
  phase='';mfa=null;clearData();resetMfa();$('#pw-new').value='';$('#pw-again').value='';showLogin(msg);
