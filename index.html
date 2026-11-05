@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/ 'sha256-y44tubQ6WlUVVqYAPmWASQI7Uv6uKYNatfgVPTgHQh8='; style-src 'unsafe-inline'; img-src 'self' data:; manifest-src 'self'; connect-src https://gvgblzjefzcmdlrqhcdw.supabase.co; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/ 'sha256-tU6+HbY9h5ryiiYtPLrT4c8dLEecg314UUkF9nH+XO4='; style-src 'unsafe-inline'; img-src 'self' data:; manifest-src 'self'; connect-src https://gvgblzjefzcmdlrqhcdw.supabase.co; base-uri 'none'; form-action 'none'">
 <meta name="theme-color" content="#0f2d52">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -449,6 +449,15 @@ h1{margin:0;font-size:24px;font-weight:800;letter-spacing:-.4px;line-height:1.3}
 .tnx .v2{font-weight:700;min-width:0}
 .trkbox .ed{width:100%;min-height:44px;margin-top:8px;font-size:15px}
 .cgrp{margin-bottom:16px;scroll-margin-top:72px}
+/* ===== 업체별 해당 공고 1105 ===== */
+.nbc+.nbc{margin-top:8px;padding-top:4px;border-top:1px solid var(--line)}
+.nbc-h{display:flex;align-items:center;gap:8px;min-height:40px}
+.nbc-h b{font-size:16px;font-weight:800}
+.nbc-h .c{font-size:14px;color:var(--muted);font-weight:700}
+.nbc-li{min-height:52px;padding:8px 0}
+.nbc-li .tx{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+.nbc-t{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:15px}
+.nbc-more{width:100%;min-height:44px;margin:4px 0 4px;font-size:15px}
 /* ===== 대시보드 할 일 정리 1105 ===== */
 .td-g+.td-g{margin-top:12px;padding-top:4px;border-top:1px solid var(--line)}
 .td-h{display:flex;align-items:center;gap:8px;min-height:40px}
@@ -575,7 +584,7 @@ h1{margin:0;font-size:24px;font-weight:800;letter-spacing:-.4px;line-height:1.3}
   <div class="card" id="d-todo-card"><div class="ch"><h3>할 일</h3><a class="lnk" href="#schedule">일정 전체 ›</a></div><div id="d-todo"></div></div>
   <div class="card" hidden data-old="할일정리_1105"><div class="ch"><h3>오늘 할 일</h3><a class="lnk" href="#schedule">일정·할 일 열기 ›</a></div><div id="d-today-list"></div></div>
   <div class="card" hidden data-old="할일정리_1105"><div class="ch"><h3>마감 임박 (7일 안)</h3><a class="lnk" href="#clients">고객사 관리 ›</a></div><div id="d-due-list"></div></div>
-  <div class="card"><div class="ch"><h3>마감 7일 안 공고</h3><a class="lnk" href="#notice">공고 ›</a></div><div id="d-notice-list"></div></div>
+  <div class="card"><div class="ch"><h3>업체별 해당 공고</h3><a class="lnk" href="#notice">공고 ›</a></div><div id="d-notice-list"></div></div>
   <div class="card"><div class="ch"><h3>받을 돈</h3><a class="lnk" href="#money">수수료 ›</a></div><div id="d-recv-list"></div></div>
   <div class="card" hidden data-old="할일정리_1105"><div class="ch"><h3>이번 주 일정</h3><a class="lnk" href="#schedule">전체 보기 ›</a></div><div class="strip" id="d-strip"></div><div id="d-week-list"></div></div>
   <div class="card" id="d-cal-card"><div class="ch"><h3>월 달력</h3><a class="lnk" href="#schedule">일정 ›</a></div><div id="d-cal"></div><div id="d-cal-day"></div></div>
@@ -1780,6 +1789,27 @@ function renderTodo(){
    list.length>TODO_MAX?h('button',{type:'button',class:'btn-line td-all',onclick:()=>{TODO_OPEN[key]=!open;renderTodo()}},open?'접기':'전체 보기 ('+list.length+'건)'):null)};
  box.replaceChildren(grp('today','오늘',g.today,'오늘 할 일이 없습니다'),grp('week','이번 주',g.week,'남은 이번 주 할 일이 없습니다'));
 }
+// ───────── 대시보드 '업체별 해당 공고'(11/5 19:49 대표님) ─────────
+// 업체로 묶고, 그 아래 높음·보통 공고를 마감 가까운 순으로(지난 마감 제외, 상시·마감 미정은 뒤). 7일 제한 없음, 업체마다 3개 + 더보기
+const NBC_MAX=3,NBC_OPEN=new Set();
+function renderNoticeByCo(){
+ const box=$('#d-notice-list');if(!box)return;
+ const t=today(),by=new Map();
+ matchRows((m,n)=>hiMid(m)&&(!n.deadline||n.deadline>=t)).forEach(([m,n])=>{const k=m.client_name||UNK;if(!by.has(k))by.set(k,[]);by.get(k).push([m,n])});
+ const dl=([m,n])=>n.deadline||'9999-12-31';
+ const cos=[...by.entries()].map(([k,l])=>[k,l.sort((a,b)=>dl(a).localeCompare(dl(b))||(a[0].likelihood==='높음'?-1:1))])
+  .sort((a,b)=>dl(a[1][0]).localeCompare(dl(b[1][0]))||a[0].localeCompare(b[0],'ko'));
+ if(!cos.length){box.replaceChildren(h('div',{class:'muted',style:{padding:'12px 0'},text:NERR?'공고 표를 읽지 못했습니다':'높음·보통으로 매칭된 공고가 없습니다'}));return}
+ box.replaceChildren(...cos.map(([co,l])=>{
+  const open=NBC_OPEN.has(co),shown=open?l:l.slice(0,NBC_MAX);
+  return h('div',{class:'nbc fi'},
+   h('div',{class:'nbc-h'},h('b',{text:co}),h('span',{class:'c',text:l.length+'건'})),
+   ...shown.map(([m,n])=>h('button',{type:'button',class:'li tap nbc-li',onclick:()=>{location.hash='#notice'}},
+    n.deadline?dday(n.deadline):h('span',{class:'badge b-gray',text:'마감 미정'}),
+    h('span',{class:'tx'},h('span',{class:'nbc-t',text:n.title||n.id}),lkBadge(m.likelihood)))),
+   l.length>NBC_MAX?h('button',{type:'button',class:'btn-line nbc-more',onclick:()=>{open?NBC_OPEN.delete(co):NBC_OPEN.add(co);renderNoticeByCo()}},open?'접기':'더보기 ('+(l.length-NBC_MAX)+'건 더)'):null);
+ }));
+}
 function renderDashboard(){
  const t=today(),d=new Date(),soon=addDays(t,7);
  const todo=DB.schedules.filter(r=>r.date===t&&!r.done);
@@ -1803,6 +1833,7 @@ function renderDashboard(){
  const ns=matchRows((m,n)=>hiMid(m)&&n.deadline&&n.deadline>=t&&n.deadline<=soon);
  $('#d-notice-list').replaceChildren(...(ns.length?ns.map(([m,n])=>h('button',{type:'button',class:'li tap fi',onclick:()=>{location.hash='#notice'}},dday(n.deadline),
   h('span',{class:'tx'},h('b',{text:m.client_name||UNK}),' · '+(n.title||n.id),h('span',{style:{display:'block'}},lkBadge(m.likelihood))))):[none(NERR?'공고 표를 읽지 못했습니다':'7일 안 마감인 높음·보통 공고가 없습니다')]));
+ renderNoticeByCo();
  renderSync();
  $('#d-recv-list').replaceChildren(...(recv.length?[...recv.map(r=>h('button',{type:'button',class:'li tap fi',onclick:()=>openForm('fees',r)},h('span',{class:'tx'},h('b',{text:clientName(r.client_id)}),' · '+(r.item||UNK),h('span',{style:{display:'block'}},h('span',{class:'badge b-amber',text:'청구 · '+md(r.billed_on)}),' ',gone(r))),h('span',{class:'dd',text:won(feeTotal(r))+'원'}))),
   h('div',{class:'sum'},h('span',{text:'합계(부가세 포함)'}),h('span',{class:'n',text:won(recvSum)+'원'})),
