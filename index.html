@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/ 'sha256-ignfJqmMwiAxPRm2Pb78QL0xxV3Qx2CYv6IFY84ao9w='; style-src 'unsafe-inline'; img-src 'self' data:; manifest-src 'self'; connect-src https://gvgblzjefzcmdlrqhcdw.supabase.co; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/ 'sha256-uMVPx4wApO7DuPu4nKl2e8ISQr+r4aqfDxb1pvooNFA='; style-src 'unsafe-inline'; img-src 'self' data:; manifest-src 'self'; connect-src https://gvgblzjefzcmdlrqhcdw.supabase.co; base-uri 'none'; form-action 'none'">
 <meta name="theme-color" content="#0f2d52">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -388,6 +388,64 @@ h1{margin:0;font-size:24px;font-weight:800;letter-spacing:-.4px;line-height:1.3}
  main{margin:0!important;padding:0}
  .card,.item,.kpi,.bc,.ag{box-shadow:none;border:1px solid var(--line)}
 }
+/* ===== 고객사 개편 1105b ===== */
+.muted.s14{font-size:14px}
+.seg.trk>button{flex-direction:column;gap:0;min-height:56px;line-height:1.25}
+.seg.trk>button i{font-style:normal;font-size:13px;font-weight:600;opacity:.85}
+.stp{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:4px;margin-bottom:6px}
+.stp button{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:56px;min-width:0;border:1px solid var(--line);border-radius:10px;background:#fff;padding:4px 0}
+.stp button span{font-size:13px;font-weight:700;color:var(--muted);white-space:nowrap}
+.stp button b{font-size:20px;font-weight:800;line-height:1.2}
+.stp button.z{background:var(--soft);border-color:transparent}
+.stp button.z b{color:#9aa5b5}
+.stp-note{font-size:14px;color:var(--muted);margin:0 0 12px}
+.gh .no{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;font-size:14px;font-weight:800;flex:none}
+.gh .no.off{background:#c9cdd3}
+.cc{background:#fff;border-radius:var(--r);box-shadow:var(--sh);padding:16px;margin-bottom:12px;min-width:0}
+.cc .top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.cc .nm{flex:1;min-width:0;font-size:18px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cc .top .badge{max-width:62%}
+.cc .ln{display:block;margin-top:6px;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cc .ln span{color:var(--muted)}
+.cc .bot{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.cc .go{margin-left:auto;min-height:44px;padding:0 14px;font-size:15px}
+.sumbox{background:var(--navy-soft);border:1px solid #a9bdd8;border-radius:var(--r);padding:16px;margin-bottom:16px}
+.sumbox .k{font-size:14px;font-weight:700;color:var(--navy-2)}
+.sumbox .v{font-size:18px;font-weight:800;margin:2px 0 10px}
+.sumbox .row{display:flex;flex-wrap:wrap;gap:8px}
+.trkbox+.trkbox{margin-top:14px;padding-top:14px;border-top:1px dashed var(--line)}
+.trkbox .th{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:16px;font-weight:800;color:var(--navy-2)}
+.trkbox .th small{font-size:14px;color:var(--muted);font-weight:700}
+.pbar{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:3px;margin-top:8px}
+.pbar i{height:10px;border-radius:5px;background:var(--line)}
+.pbar i.d{background:#9dbcf7}
+.pbar i.c{background:var(--navy)}
+.pnow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px}
+.pnow b{font-size:17px;font-weight:800}
+.pnext{font-size:14px;color:var(--muted);margin-top:4px}
+.s8{list-style:none;margin:0;padding:0 0 8px;border-top:1px dashed var(--line)}
+.s8 li{display:flex;align-items:center;gap:10px;min-height:40px;border-bottom:1px solid var(--line);font-size:15px}
+.s8 li:last-child{border-bottom:0}
+.s8 .no{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:var(--soft);color:var(--muted);font-size:13px;font-weight:800;flex:none}
+.s8 li.d .no{background:#9dbcf7;color:#fff}
+.s8 li.c .no{background:var(--navy);color:#fff}
+.s8 li.c{font-weight:800}
+.s8 .st{margin-left:auto;font-size:14px;color:var(--muted)}
+.chk{list-style:none;margin:8px 0 0;padding:0}
+.chk li{display:flex;align-items:center;gap:8px;min-height:36px;font-size:15px}
+.chk li b{width:20px;text-align:center;color:#15803d}
+.chk li.no{color:var(--muted)}
+.chk li.no b{color:#9aa5b5}
+.memo{white-space:pre-wrap;font-size:16px;margin:4px 0 0}
+.foot-note{font-size:14px;color:var(--muted);margin-top:6px}
+.tag.yr{background:#fff;border-color:var(--navy-2);color:var(--navy);font-weight:800}
+.tag.prop{background:#fff;border-style:dashed;border-color:var(--navy-2);color:var(--navy-2)}
+.tag.hold{background:#f3f4f6;border-color:#c9cdd3;color:#4b5563}
+.tnx{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;margin-top:10px;padding:8px 10px;background:var(--bg);border-radius:var(--r-s);font-size:15px;min-width:0}
+.tnx .k{flex-basis:100%;font-size:13px;font-weight:700;color:var(--navy-2)}
+.tnx .v2{font-weight:700;min-width:0}
+.trkbox .ed{width:100%;min-height:44px;margin-top:8px;font-size:15px}
+.cgrp{margin-bottom:16px;scroll-margin-top:72px}
 </style>
 </head>
 <body>
@@ -502,16 +560,21 @@ h1{margin:0;font-size:24px;font-weight:800;letter-spacing:-.4px;line-height:1.3}
  </div>
 </section>
 
-<!-- 고객사 -->
+<!-- 고객사(11/5 개편 1105b: 1. 정책자금 / 2. S-OJT / 3. 기타 탭, 카드 = 업체 × 갈래 × 건) -->
 <section class="view" id="v-clients">
- <div class="vh"><div><h1>고객사 관리</h1><div class="st2">상담 → 진단 → 진행 예정 → 서류 → 접수 → 심사 → 승인 → 정산 → 종료 · 보류</div></div></div>
- <div class="tools"><input class="q" type="search" placeholder="고객사·사업·할 일 검색" aria-label="검색"><button class="fbtn" data-filter type="button" aria-label="단계·꼬리표 필터"><span>종료 제외</span> ▾</button></div>
- <div class="sheet fsh" role="dialog" aria-label="단계·꼬리표 필터"><div class="hd"></div><h2>단계 · 꼬리표</h2><div class="chips"></div><div class="btns"><button class="btn-line" data-close type="button">닫기</button></div></div>
- <div class="card" style="padding:12px 16px"><div class="tags2" id="f-clients" style="margin:0"></div></div>
- <div class="items" id="l-clients"></div>
- <div class="empty"><b>고객사가 없습니다</b><span>오른쪽 아래 + 버튼으로 넣거나, PC에서 erp_sync.py 로 진행현황을 올려 주세요.</span></div>
- <div class="muted" id="s-clients"></div>
+ <div class="vh"><div><h1>고객사 관리</h1><div class="st2">갈래를 고르고, 단계별로 봅니다</div></div></div>
+ <div class="seg trk" id="c-trk"></div>
+ <div class="tools"><input class="q" id="c-q" type="search" placeholder="고객사·할 일 검색" aria-label="검색"><button class="fbtn" id="c-fbtn" type="button" aria-label="필터"><span>종료 제외</span> ▾</button></div>
+ <div class="stp" id="c-stp"></div>
+ <div class="stp-note" id="c-stp-note"></div>
+ <div id="c-lst"></div>
+ <div class="muted s14" id="s-clients"></div>
 </section>
+<section class="view" id="v-cdetail"><div id="c-detail"></div></section>
+<div class="sheet" id="c-fsheet" role="dialog" aria-label="고객사 필터"><div class="hd"></div><h2>필터</h2><div class="chips" id="c-chips"></div><div class="btns"><button class="btn-line" data-close type="button">닫기</button></div></div>
+<div class="sheet" id="c-tsheet" role="dialog" aria-label="갈래·건 고치기"><div class="hd"></div><h2 id="t-title">갈래·건 고치기</h2><div id="t-fields"></div>
+ <div class="btns two"><button class="btn-line" data-close type="button">닫기</button><button class="btn" id="t-save" type="button">저장</button></div>
+ <div class="btns"><button class="btn-del" id="t-del" type="button" hidden>이 건 지우기</button></div></div>
 
 <!-- 수수료 -->
 <section class="view" id="v-money">
@@ -847,6 +910,8 @@ const T={
   {k:'status',l:'상태',type:'select',opts:['진행','대기','휴면','종료',UNK]},{k:'note',l:'메모',type:'area'}]},
  // 새 단계 표(고객사 고치기 창에서 함께 저장). 입력 창은 따로 없다
  client_progress:{label:'고객사 단계',order:'client_id',fields:[]},
+ // 갈래·건별 단계(11/5 개편 1105b). 고치기는 상세 화면의 '이 건 고치기' 시트에서
+ client_tracks:{label:'고객사 갈래',order:'client_id',fields:[]},
  erp_tasks:{label:'할 일',order:'priority',nullText:1,def:()=>({priority:2,status:'대기',grp:'온리드',owner_label:'대표님'}),fields:[
   {k:'title',l:'할 일',req:1,max:200},
   {k:'priority',l:'우선순위',type:'select',opts:['1','2','3','4','5'],lab:v=>'P'+v,int:1},
@@ -940,7 +1005,7 @@ const NT={
 DB.notices=[];DB.notice_matches=[];DB.sync_runs=[];DB.ad_creatives=[];let NERR='',SERR='',AERR='';
 const VIEW_TABLE={dashboard:'schedules',clients:'clients',money:'fees',freelancer:'freelancer_payouts',schedule:'schedules',inquiry:'onlead_inquiries',upload:'marketing_uploads',
  tasks:'erp_tasks',decide:'erp_decisions',docs:'erp_documents',track:'erp_track_links'};
-const TAB={freelancer:'more',upload:'more',notify:'schedule',notice:'more',ads:'more',plans:'more',track:'more',tasks:'more',decide:'more',docs:'more',etc:'more'};
+const TAB={cdetail:'clients',freelancer:'more',upload:'more',notify:'schedule',notice:'more',ads:'more',plans:'more',track:'more',tasks:'more',decide:'more',docs:'more',etc:'more'};
 const DEF={clients:'종료 제외',schedule:'이번 주',tasks:'미결'};   // 필터 기본값(이 값이면 필터 버튼을 강조하지 않음)
 const clientName=id=>(DB.clients.find(c=>c.id===id)||{}).name||'고객사 미지정';
 let PG=new Map();   // client_id → client_progress 줄
@@ -1145,23 +1210,202 @@ function clientTags(p){
  const t=[...(p.tags||[]).map(x=>h('span',{class:'tag nv',text:x})),p.entity==='더베어'?h('span',{class:'tag bear',text:'더베어 명의'}):p.entity==='확인 필요'?h('span',{class:'tag',text:'명의 확인 필요'}):null].filter(Boolean);
  return t.length?h('span',{class:'tags2'},t):null;
 }
-function renderClients(){
- const rows=[...DB.clients].sort((a,b)=>{const x=PG.get(a.id),y=PG.get(b.id),i=s=>s?STEPS.indexOf(s.step):99;
-  return i(x)-i(y)||(a.due||'9999').localeCompare(b.due||'9999')||a.name.localeCompare(b.name,'ko')});
- const tg=r=>{const p=PG.get(r.id);return [p?p.step:'단계 확인 필요',...(p&&p.tags||[]),p&&p.entity==='더베어'?'더베어 명의':'',isEnd(r,p)?'':'종료 제외'].filter(Boolean)};
- const all=rows.map(tg),c=v=>all.filter(x=>x.includes(v)).length;
- chips('clients',[['종료 제외',c('종료 제외')],['전체',rows.length],...[...STEPS,'단계 확인 필요'].filter(s=>c(s)).map(s=>[s,c(s)]),...TAGS.filter(s=>c(s)).map(s=>[s,c(s)]),...(c('더베어 명의')?[['더베어 명의',c('더베어 명의')]]:[])],'종료 제외');
- $('#f-clients').replaceChildren(...STEPS.filter(s=>s!=='종료'&&c(s)).map(s=>h('span',{class:'badge '+stepTone(s),text:s+' '+c(s)})),h('span',{class:'badge b-gray',text:'종료 '+c('종료')}));
- $('#l-clients').replaceChildren(...rows.map((r,i)=>{const p=PG.get(r.id);
-  return h('button',{type:'button',class:'item fi',data:{t:all[i].join('|')},onclick:()=>openForm('clients',r)},
-  h('span',{class:'top'},h('span',null,h('span',{class:'nm',text:r.name}),h('span',{class:'muted',text:r.program||UNK})),stepBadge(p)),
-  clientTags(p),
-  h('span',{class:'ln',text:'다음 할 일 · '+(r.next_action||UNK)}),
-  r.stage&&r.stage!==UNK?h('span',{class:'old',title:r.stage,text:'진행현황 · '+r.stage}):null,
-  p&&p.plan_stage?h('span',{class:'muted',style:{fontSize:'14px'},text:'사업계획서 '+p.plan_stage+' · 서류 '+(p.docs_done||[]).filter(d=>DOCS.includes(d)).length+'/'+DOCS.length}):null,
-  h('span',{class:'bot'},isEnd(r,p)?h('span',{class:'muted',text:'마감 —'}):dday(r.due),h('span',{class:'muted',text:'요율 '+(r.fee_rate||UNK)}),r.status&&r.status!=='진행'?badge(r.status):null,gone(r)))}));
- $('#s-clients').textContent=rows.length?`${rows.length}곳 · 종료 제외 ${c('종료 제외')}곳 · 단계는 ERP에서 정하고, PC 동기화가 바꾸지 않습니다`:'';
+// ───────── 고객사(11/5 개편 1105b) ─────────
+// 카드 한 장 = 업체 × 갈래 × 건(client_tracks). 정책자금·S-OJT는 8단계, 기타는 단계 없이 상태 한 줄.
+// 보류 = 단계 그대로 + '보류' 표시. 더베어 고객 = client_progress.entity. 이 표는 PC 동기화가 쓰지 않는다.
+const TRK={policy:'정책자금',sojt:'S-OJT',etc:'기타'},TKEY={'정책자금':'policy','S-OJT':'sojt','기타':'etc'};
+const TSTEPS={
+ policy:['문의 접수','연락','계약','상담 자료 작성','기관 상담·결과','심사·실사','보증서 발급 예정','수수료 청구'],
+ sojt:['문의 접수','연락','계약','과정 준비','실시 신고·훈련 진행','수료 보고','비용 신청','수수료 청구']};
+// 단계 안 상태(DB check와 같게)
+const TSUB=(t,s)=>s===2?['통화','부재 문자','연락 두절']:s===3?['체결','미체결']:t==='sojt'&&s===6?['작성 중','신청 후 대기']:t==='sojt'&&s===7?['신청','지급 대기']:s===8?['완료']:[];
+const SUBCLS={'통화':'b-blue','부재 문자':'b-amber','연락 두절':'b-red','체결':'b-green','미체결':'b-gray','작성 중':'b-blue','신청 후 대기':'b-amber','신청':'b-blue','지급 대기':'b-amber','완료':'b-green'};
+const CFN={ex:'종료 제외',all:'전체',end:'종료만',hold:'보류만',soon:'마감 7일 안',two:'두 갈래 진행',bear:'더베어 고객'};
+const PROP='제안';   // 진행 예정 칸이 '제안'으로 시작하면 제안(대표님 확정 전) 표시
+let TR=[],CS={t:'policy',f:'ex',q:''},CD=null;
+function buildTracks(){
+ const live=new Set(DB.clients.map(c=>c.id));
+ TR=DB.client_tracks.filter(r=>live.has(r.client_id)&&TKEY[r.track]).map(r=>({
+  key:r.client_id+'|'+r.track+'|'+r.case_label,cid:r.client_id,t:TKEY[r.track],c:r.case_label||'',s:r.stage||null,sub:r.sub_status||'',
+  next:r.next_action||'',due:r.due_date||'',line:r.status_line||'',when:r.step_when||'',
+  hold:r.state==='보류',end:r.state==='종료',prop:(r.step_when||'').startsWith(PROP),raw:r}));
+ // 꼬리표에 갈래가 있는데 그 갈래 건이 없는 진행 중 업체 → '단계 확인 필요'(DB에는 단계 없는 줄을 둘 수 없어 화면에서만)
+ DB.clients.forEach(c=>{const p=PG.get(c.id);if(!p||isEnd(c,p))return;
+  [['정책자금','policy'],['S-OJT','sojt']].forEach(([tg,t])=>{
+   if((p.tags||[]).includes(tg)&&!TR.some(r=>r.cid===c.id&&r.t===t))
+    TR.push({key:c.id+'|'+tg+'|?',cid:c.id,t,c:'',s:null,sub:'',next:'단계 정하기',due:'',line:'',when:'',hold:p.step==='보류',end:false,prop:false,miss:true});
+  })});
 }
+const cOf=id=>DB.clients.find(c=>c.id===id)||{};
+const tDone=r=>r.sub==='완료';
+const hasT=(cid,t)=>TR.some(r=>r.cid===cid&&r.t===t&&!r.end);
+const tStep=(t,s)=>s?TSTEPS[t][s-1]:'단계 확인 필요';
+function tStepCls(t,s){if(!s)return 'b-red';if(t==='policy')return s<=4?'b-blue':s<=6?'b-amber':'b-green';return s<=5?'b-blue':s<=7?'b-amber':'b-green'}
+const xLab=r=>tStep(r.t,r.s)+(r.sub?' · '+r.sub:'');
+const xCls=r=>r.sub?SUBCLS[r.sub]||'b-gray':tStepCls(r.t,r.s);
+const tDue=r=>(r.end||tDone(r))?h('span',{class:'muted',text:'마감 —'}):dday(r.due);
+const rName=r=>TRK[r.t]+(r.c?' '+r.c:'');
+const smallTags=r=>[r.c?h('span',{class:'tag yr',text:r.c+' 건'}):null,r.prop?h('span',{class:'tag prop',text:'제안'}):null,r.hold?h('span',{class:'tag hold',text:'보류'}):null].filter(Boolean);
+const isBear=cid=>(PG.get(cid)||{}).entity==='더베어';
+function cPass(r,f){
+ if(f==='ex')return !r.end;if(f==='all')return true;if(f==='end')return r.end;if(r.end)return false;
+ if(f==='hold')return r.hold;
+ if(f==='soon')return !tDone(r)&&!!r.due&&diff(r.due,today())<=7;
+ if(f==='two')return hasT(r.cid,'policy')&&hasT(r.cid,'sojt');
+ if(f==='bear')return isBear(r.cid);
+ return true;
+}
+const tItems=t=>TR.filter(r=>r.t===t);
+const nCo=rs=>new Set(rs.map(r=>r.cid)).size;
+const cntText=rs=>{const n=nCo(rs);return n+'곳'+(rs.length!==n?' · '+rs.length+'건':'')};
+function tSort(a,b){const x=a.due||'9999',y=b.due||'9999';if(x!==y)return x<y?-1:1;
+ const n=(cOf(a.cid).name||'').localeCompare(cOf(b.cid).name||'','ko');if(n)return n;return a.c<b.c?1:a.c>b.c?-1:0}
+
+function renderClients(){
+ buildTracks();
+ const t=CS.t,f=CS.f,base=tItems(t);
+ $('#c-trk').replaceChildren(...['policy','sojt','etc'].map((k,i)=>h('button',{type:'button',class:k===t?'on':null,onclick:()=>{if(CS.t!==k){CS.t=k;CS.f='ex'}renderClients();scrollTo(0,0)}},(i+1)+'. '+TRK[k],h('i',{text:cntText(tItems(k).filter(r=>!r.end))}))));
+ const fl=base.filter(r=>cPass(r,f));
+ const fb=$('#c-fbtn');$('span',fb).textContent=CFN[f]+' '+fl.length;fb.classList.toggle('on',f!=='ex');
+ const stp=$('#c-stp'),note=$('#c-stp-note');
+ stp.hidden=note.hidden=t==='etc';
+ if(t!=='etc'){
+  const empty=[];
+  stp.replaceChildren(...[1,2,3,4,5,6,7,8].map(k=>{const n=fl.filter(r=>r.s===k).length;if(!n)empty.push(k+' '+TSTEPS[t][k-1]);
+   return h('button',{type:'button',class:n?null:'z','aria-label':k+'단계 '+TSTEPS[t][k-1]+' '+n+'건',onclick:()=>{const g=document.getElementById('cg-'+k);if(n&&g)g.scrollIntoView({behavior:'smooth',block:'start'})}},h('span',{text:String(k)}),h('b',{text:String(n)}))}));
+  note.textContent=empty.length?'빈 단계는 목록에서 숨깁니다 · '+empty.join(' · '):'';note.hidden=!empty.length;
+ }
+ paintTracks();
+ const all=base.filter(r=>!r.end);
+ $('#s-clients').textContent=TRK[t]+' '+cntText(all)+" · 종료 건은 필터 '종료만'에서 봅니다 · 단계는 ERP에서 정하고, PC 동기화가 바꾸지 않습니다";
+ paintCChips();
+ if(cur==='cdetail')renderCDetail();
+}
+function paintTracks(){
+ const t=CS.t,q=CS.q.toLowerCase(),box=$('#c-lst');
+ const list=tItems(t).filter(r=>cPass(r,CS.f)&&(!q||[(cOf(r.cid).name||''),r.next,r.line].some(x=>x.toLowerCase().includes(q))));
+ const out=[];
+ if(t==='etc')list.sort(tSort).forEach(r=>out.push(tCard(r)));
+ else [1,2,3,4,5,6,7,8,0].forEach(k=>{const g=list.filter(r=>(r.s||0)===k).sort(tSort);if(!g.length)return;
+  out.push(h('div',{class:'cgrp',id:'cg-'+k},h('div',{class:'gh'},h('span',{class:'no'+(k?'':' off'),text:k?String(k):'?'}),h('h4',null,k?TSTEPS[t][k-1]:'단계 확인 필요',h('em',{text:g.length+'건'}))),...g.map(r=>tCard(r))))});
+ if(!list.length)out.push(h('div',{class:'empty show'},h('b',{text:'조건에 맞는 고객사가 없습니다'}),h('span',{text:"필터를 '종료 제외'로 바꿔 보세요."})));
+ box.replaceChildren(...out);
+}
+function tCard(r){
+ const e=cOf(r.cid);
+ const top=h('div',{class:'top'},h('span',{class:'nm',text:e.name}),r.t!=='etc'?h('span',{class:'badge '+xCls(r),text:xLab(r)}):null);
+ const bot=h('div',{class:'bot'},tDue(r),...smallTags(r),
+  r.t==='policy'&&hasT(r.cid,'sojt')?h('span',{class:'tag nv',text:'S-OJT도 진행'}):null,
+  r.t==='sojt'&&hasT(r.cid,'policy')?h('span',{class:'tag nv',text:'정책자금도 진행'}):null,
+  isBear(r.cid)?h('span',{class:'tag bear',text:'더베어 고객'}):null,gone(e),
+  h('button',{type:'button',class:'btn-line go',onclick:()=>openCDetail(r)},'상세 ›'));
+ return h('div',{class:'cc'},top,
+  r.t==='etc'?h('span',{class:'ln'},h('span',{text:'상태 · '}),r.line||UNK):null,
+  h('span',{class:'ln'},h('span',{text:'다음 할 일 · '}),r.next||UNK),bot);
+}
+function paintCChips(){
+ const all=tItems(CS.t);
+ $('#c-chips').replaceChildren(...Object.keys(CFN).map((k,i)=>{const n=all.filter(r=>cPass(r,k)).length;if(i>1&&!n)return null;
+  return h('button',{type:'button',class:'chip'+(CS.f===k?' on':''),onclick:()=>{CS.f=k;closeSheet();renderClients()}},CFN[k],h('i',{text:String(n)}))}).filter(Boolean));
+}
+$('#c-fbtn').addEventListener('click',()=>{paintCChips();openSheet($('#c-fsheet'))});
+$('#c-q').addEventListener('input',e=>{CS.q=e.target.value.trim();paintTracks()});
+
+// ───────── 상세 ─────────
+function openCDetail(r){CD={id:r.cid,key:r.key,from:r.t};if(location.hash==='#cdetail')route();else location.hash='cdetail'}
+function trkBox(r){
+ const t=r.t,n=r.s||0,has8=t!=='etc';
+ const kids=[h('div',{class:'th'},h('span',{text:TRK[t]+' 진행'+(r.c?' · '+r.c+' 건':'')}),has8?h('small',{text:(n||'–')+' / 8'}):null)];
+ if(has8)kids.push(h('div',{class:'pbar'},[1,2,3,4,5,6,7,8].map(k=>h('i',{class:n&&k<n?'d':n&&k===n?'c':null}))));
+ kids.push(h('div',{class:'pnow'},!has8?h('b',{text:r.line||UNK}):n?[h('b',{text:n+'. '+TSTEPS[t][n-1]}),r.sub?h('span',{class:'badge '+(SUBCLS[r.sub]||'b-gray'),text:r.sub}):null]:h('span',{class:'badge b-red',text:'단계 확인 필요'}),
+  r.prop?h('span',{class:'tag prop',text:'제안'}):null,r.hold?h('span',{class:'tag hold',text:'보류'}):null,r.end?h('span',{class:'tag gone',text:'종료'}):null));
+ if(has8&&n&&!r.hold)kids.push(h('div',{class:'pnext',text:n<8?'다음 단계 · '+(n+1)+'. '+TSTEPS[t][n]:tDone(r)?'이 건은 끝났습니다':'마지막 단계입니다'}));
+ kids.push(h('div',{class:'tnx'},h('span',{class:'k',text:'다음 할 일'}),h('span',{class:'v2',text:r.next||UNK}),tDue(r)));
+ if(r.when)kids.push(h('div',{class:'pnext',text:'예정 · '+r.when}));
+ if(has8)kids.push(h('details',{class:'kk'},h('summary',{text:'8단계 전체 보기'}),h('ol',{class:'s8'},TSTEPS[t].map((nm,i)=>{const j=i+1;
+  return h('li',{class:n&&j<n?'d':n&&j===n?'c':null},h('span',{class:'no',text:String(j)}),h('span',{text:nm}),h('span',{class:'st',text:n&&j<n?'완료':n&&j===n?(tDone(r)?'완료':'지금'):''}))}))));
+ kids.push(h('button',{type:'button',class:'btn-line ed',onclick:()=>openTrack(r.miss?null:r,r.cid,r.t)},r.miss?'단계 정하기':'이 건 고치기'));
+ return h('div',{class:'trkbox'},kids);
+}
+function c2(title,kids,link){return h('div',{class:'card'},h('div',{class:'ch'},h('h3',{text:title}),link||null),...kids)}
+function dl2(rows){return h('dl',{class:'dl'},rows.flatMap(([a,b])=>[h('dt',{text:a}),h('dd',null,b)]))}
+function backTo(from){CS.t=from||'policy';location.hash='clients'}
+function renderCDetail(){
+ const root=$('#c-detail');
+ const e=CD&&DB.clients.find(c=>c.id===CD.id);
+ if(!e){root.replaceChildren(h('a',{class:'back',href:'#clients',text:'‹ 고객사 목록'}),h('div',{class:'empty show'},h('b',{text:'고객사를 목록에서 골라 주세요'})));return}
+ const p=PG.get(e.id)||{},mine=TR.filter(r=>r.cid===e.id),TO=['policy','sojt','etc'];
+ const r0=mine.find(r=>r.key===CD.key)||mine.find(r=>r.t===CD.from)||mine[0];
+ const order=r0?[r0,...mine.filter(r=>r!==r0).sort((a,b)=>{const x=a.t===r0.t?-1:TO.indexOf(a.t),y=b.t===r0.t?-1:TO.indexOf(b.t);return x!==y?x-y:a.c<b.c?1:a.c>b.c?-1:0})]:[];
+ const from=CD.from||'policy',tags=p.tags||[];
+ const out=[h('a',{class:'back',href:'#clients',onclick:ev=>{ev.preventDefault();backTo(from)},text:'‹ '+TRK[from]+' 목록'}),
+  h('div',{class:'vh'},h('div',null,h('h1',{text:e.name}),h('div',{class:'st2',text:e.program||UNK}),
+   h('div',{class:'tags2'},tags.map(g=>h('span',{class:'tag nv',text:g})),isBear(e.id)?h('span',{class:'tag bear',text:'더베어 고객'}):null,gone(e))))];
+ if(r0)out.push(h('div',{class:'sumbox'},h('div',{class:'k',text:'다음 할 일 · '+rName(r0)}),h('div',{class:'v',text:r0.next||UNK}),
+  h('div',{class:'row'},tDue(r0),r0.t!=='etc'?h('span',{class:'badge '+xCls(r0),text:xLab(r0)}):null,...smallTags(r0))));
+ const iq=DB.onlead_inquiries.filter(r=>r.client_id===e.id);
+ const info=[['고객사 이름',e.name],['담당 사업',e.program||UNK],['사업 꼬리표',tags.length?tags.join(', '):'—'],['명의',p.entity||UNK]];
+ if(iq.length)info.push(['온리드 문의',h('a',{class:'lnk',href:'#inquiry',text:iq.map(r=>r.ceo_name+' · '+dt(r.received_at)).join(', ')+' ›'})]);
+ out.push(c2('기본 정보',[dl2(info)]));
+ out.push(c2('단계 · 상태',[...order.map(trkBox),
+  h('button',{type:'button',class:'btn-line ed',style:{width:'100%',marginTop:'12px'},onclick:()=>openTrack(null,e.id,from)},'+ 갈래·건 추가'),
+  dl2([['상태',badge(e.status)]])]));
+ const docs=p.docs_done||[];
+ out.push(c2('서류 · 사업계획서',[dl2([['사업계획서 단계',p.plan_stage?h('span',{class:'badge b-blue',text:p.plan_stage}):'—'],['받은 필수 서류',docs.filter(d=>DOCS.includes(d)).length+' / '+DOCS.length]]),
+  h('ul',{class:'chk'},DOCS.map(d=>{const got=docs.includes(d);return h('li',{class:got?null:'no'},h('b',{text:got?'✓':'–'}),h('span',{text:d}))}))]));
+ out.push(c2('진행현황 (PC 동기화 내용)',[dl2([['진행 상태',e.stage||UNK],...order.map(r=>[rName(r),h('div',null,h('div',{text:r.next||UNK}),tDue(r))]),['다음 할 일(원본)',e.next_action||UNK],['마감(원본)',e.due?dday(e.due):'—']]),
+  h('div',{class:'foot-note',text:'PC 진행현황 동기화로 들어온 내용입니다. 단계·갈래는 ERP에서 정하고, 동기화가 바꾸지 않습니다.'})]));
+ out.push(c2('돈',[dl2([['요율',e.fee_rate||UNK]]),h('a',{class:'lnk',href:'#money',text:'수수료·입금 보기 ›'})]));
+ out.push(c2('메모 · 기록',[h('p',{class:'memo',text:e.note||'—'})]));
+ out.push(h('div',{class:'card'},clientNotices(e)));
+ out.push(h('div',{class:'btns two'},h('button',{type:'button',class:'btn-line',onclick:()=>backTo(from)},'목록으로'),h('button',{type:'button',class:'btn',onclick:()=>openForm('clients',e)},'고치기')));
+ root.replaceChildren(...out);
+}
+
+// ───────── 갈래·건 고치기 시트(client_tracks) ─────────
+let TED=null;
+function tf(l,input){return h('div',null,h('label',{class:'f',for:input.id,text:l}),input)}
+function selIn(id,opts,val){const s=h('select',{class:'in',id});opts.forEach(([v,l])=>s.append(new Option(l,v)));s.value=val==null?'':String(val);return s}
+function openTrack(r,cid,t){
+ const raw=r&&r.raw;TED={raw,cid};
+ $('#t-title').textContent=(raw?'고치기 · ':'갈래·건 추가 · ')+(cOf(cid).name||'');
+ const tr=selIn('t-track',[['정책자금','1. 정책자금'],['S-OJT','2. S-OJT'],['기타','3. 기타']],raw?raw.track:TRK[t]);tr.disabled=!!raw;
+ const cl=h('input',{class:'in',id:'t-case',maxlength:20,placeholder:'건 하나뿐이면 비움 · 해마다 하면 2027 처럼',autocomplete:'off'});cl.value=raw?raw.case_label:'';cl.disabled=!!raw;
+ const st=h('select',{class:'in',id:'t-stage'}),sb2=h('select',{class:'in',id:'t-sub'});
+ const line=h('input',{class:'in',id:'t-line',maxlength:60,autocomplete:'off'});line.value=raw&&raw.status_line||'';
+ const state=selIn('t-state',[['진행','진행'],['보류','보류(단계 그대로)'],['종료','종료(목록에서 숨김)']],raw?raw.state:'진행');
+ const nx=h('input',{class:'in',id:'t-next',maxlength:120,autocomplete:'off'});nx.value=raw&&raw.next_action||'';
+ const du=h('input',{class:'in',id:'t-due',type:'date'});du.value=raw&&raw.due_date||'';
+ const wh=h('input',{class:'in',id:'t-when',maxlength:30,autocomplete:'off',placeholder:"예: 2027년 초 · '제안'으로 시작하면 제안 표시"});wh.value=raw&&raw.step_when||'';
+ const wStage=tf('단계',st),wSub=tf('단계 안 상태',sb2),wLine=tf('상태 한 줄(기타, 60자까지)',line);
+ let first=true;
+ const fill=()=>{const k=TKEY[tr.value],etc=k==='etc';wStage.hidden=etc;wLine.hidden=!etc;
+  if(!etc){const v=first&&raw&&raw.stage?String(raw.stage):(st.value||'1');st.replaceChildren(...TSTEPS[k].map((n,i)=>new Option((i+1)+'. '+n,String(i+1))));st.value=v}
+  const subs=etc?[]:TSUB(k,Number(st.value)),sv=first&&raw?raw.sub_status||'':sb2.value;
+  sb2.replaceChildren(new Option('(없음)',''),...subs.map(x=>new Option(x,x)));sb2.value=subs.includes(sv)?sv:'';wSub.hidden=etc||!subs.length;first=false};
+ tr.addEventListener('change',fill);st.addEventListener('change',fill);fill();
+ $('#t-fields').replaceChildren(tf('갈래',tr),tf('건 이름',cl),wStage,wSub,wLine,tf('진행 · 보류 · 종료',state),tf('다음 할 일(120자까지)',nx),tf('마감',du),tf('진행 예정 시기(30자까지)',wh));
+ $('#t-del').hidden=!raw;
+ openSheet($('#c-tsheet'));
+}
+$('#t-save').addEventListener('click',async()=>{
+ if(!TED||phase!=='app')return;
+ const g=id=>$('#'+id).value.trim(),track=$('#t-track').value,etc=track==='기타';
+ const row={stage:etc?null:Number(g('t-stage')),sub_status:etc?null:(g('t-sub')||null),status_line:etc?(g('t-line')||null):null,
+  state:g('t-state'),next_action:g('t-next')||null,due_date:g('t-due')||null,step_when:g('t-when')||null};
+ const b=$('#t-save');b.disabled=true;let res;
+ if(TED.raw)res=await sb.from('client_tracks').update(row).eq('client_id',TED.cid).eq('track',TED.raw.track).eq('case_label',TED.raw.case_label);
+ else res=await sb.from('client_tracks').insert({client_id:TED.cid,track,case_label:g('t-case'),...row});
+ b.disabled=false;
+ if(res.error){toast('저장 실패: '+(res.error.code==='23505'?'같은 갈래·건이 이미 있습니다':res.error.message));return}
+ closeSheet();toast('저장했습니다');await loadAll();
+});
+$('#t-del').addEventListener('click',async()=>{
+ if(!TED||!TED.raw||phase!=='app'||!confirm('이 건을 지울까요? 되돌릴 수 없습니다. (끝난 건은 지우지 말고 종료로 두는 것을 권합니다)'))return;
+ const {error}=await sb.from('client_tracks').delete().eq('client_id',TED.cid).eq('track',TED.raw.track).eq('case_label',TED.raw.case_label);
+ if(error){toast('지우기 실패: '+error.message);return}
+ closeSheet();toast('지웠습니다');await loadAll();
+});
 // 고객사 고치기 창 위: 연결된 온리드 문의 + 매칭 공고
 function clientExtra(c){
  const iq=DB.onlead_inquiries.filter(r=>r.client_id===c.id);
@@ -1654,6 +1898,7 @@ function route(){
  let v='';try{v=decodeURIComponent(location.hash.slice(1))}catch(e){}
  if(!v||v.includes('=')||!document.getElementById('v-'+v))v='dashboard';
  cur=v;closeSheet();
+ if(v==='cdetail')renderCDetail();
  $$('.view').forEach(e=>e.classList.toggle('on',e.id==='v-'+v));
  const tab=TAB[v]||v;
  $$('.tabbar a').forEach(a=>a.classList.toggle('on',a.hash==='#'+tab));
