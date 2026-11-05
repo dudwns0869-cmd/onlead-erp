@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/ 'sha256-8IolLPwrtDrpzOo3JsJZMO81EejRqN9PjdabGcoqFEc='; style-src 'unsafe-inline'; img-src 'self' data:; manifest-src 'self'; connect-src https://gvgblzjefzcmdlrqhcdw.supabase.co; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/ 'sha256-y44tubQ6WlUVVqYAPmWASQI7Uv6uKYNatfgVPTgHQh8='; style-src 'unsafe-inline'; img-src 'self' data:; manifest-src 'self'; connect-src https://gvgblzjefzcmdlrqhcdw.supabase.co; base-uri 'none'; form-action 'none'">
 <meta name="theme-color" content="#0f2d52">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -449,6 +449,27 @@ h1{margin:0;font-size:24px;font-weight:800;letter-spacing:-.4px;line-height:1.3}
 .tnx .v2{font-weight:700;min-width:0}
 .trkbox .ed{width:100%;min-height:44px;margin-top:8px;font-size:15px}
 .cgrp{margin-bottom:16px;scroll-margin-top:72px}
+/* ===== 대시보드 할 일 정리 1105 ===== */
+.td-g+.td-g{margin-top:12px;padding-top:4px;border-top:1px solid var(--line)}
+.td-h{display:flex;align-items:center;gap:8px;min-height:40px}
+.td-h h4{margin:0;font-size:16px;font-weight:800}
+.td-h .c{font-size:14px;color:var(--muted);font-weight:700}
+.td-it{border-bottom:1px solid var(--line)}
+.td-it:last-of-type{border-bottom:0}
+.td-row{display:flex;align-items:center;gap:8px;width:100%;min-height:48px;padding:6px 0;border:0;background:none;text-align:left;font:inherit;color:inherit;min-width:0}
+.td-dot{flex:none;width:8px;height:8px;border-radius:50%;background:transparent}
+.td-dot.on{background:#c92a2a}
+.td-co{flex:none;max-width:34%;font-size:15px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.td-tx{flex:1;min-width:0;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.td-dd{flex:none;font-size:14px;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.td-dd.late{color:#b42323}
+.td-more{padding:0 0 12px 16px}
+.td-full{margin:0;font-size:15px;white-space:pre-wrap;overflow-wrap:anywhere}
+.td-meta{font-size:14px;color:var(--muted);margin-top:4px}
+.td-act{display:flex;gap:8px;margin-top:8px}
+.td-act .btn-line{min-height:44px;font-size:15px}
+.td-all{width:100%;min-height:44px;margin-top:8px;font-size:15px}
+.td-none{padding:8px 0 4px;font-size:15px}
 </style>
 </head>
 <body>
@@ -551,13 +572,14 @@ h1{margin:0;font-size:24px;font-weight:800;letter-spacing:-.4px;line-height:1.3}
  </div>
  <div class="tools"><input class="q" type="search" placeholder="고객사·문의·할 일 검색" aria-label="검색"></div>
  <div class="dcards">
-  <div class="card"><div class="ch"><h3>오늘 할 일</h3><a class="lnk" href="#schedule">일정·할 일 열기 ›</a></div><div id="d-today-list"></div></div>
-  <div class="card"><div class="ch"><h3>마감 임박 (7일 안)</h3><a class="lnk" href="#clients">고객사 관리 ›</a></div><div id="d-due-list"></div></div>
+  <div class="card" id="d-todo-card"><div class="ch"><h3>할 일</h3><a class="lnk" href="#schedule">일정 전체 ›</a></div><div id="d-todo"></div></div>
+  <div class="card" hidden data-old="할일정리_1105"><div class="ch"><h3>오늘 할 일</h3><a class="lnk" href="#schedule">일정·할 일 열기 ›</a></div><div id="d-today-list"></div></div>
+  <div class="card" hidden data-old="할일정리_1105"><div class="ch"><h3>마감 임박 (7일 안)</h3><a class="lnk" href="#clients">고객사 관리 ›</a></div><div id="d-due-list"></div></div>
   <div class="card"><div class="ch"><h3>마감 7일 안 공고</h3><a class="lnk" href="#notice">공고 ›</a></div><div id="d-notice-list"></div></div>
   <div class="card"><div class="ch"><h3>받을 돈</h3><a class="lnk" href="#money">수수료 ›</a></div><div id="d-recv-list"></div></div>
-  <div class="card"><div class="ch"><h3>이번 주 일정</h3><a class="lnk" href="#schedule">전체 보기 ›</a></div><div class="strip" id="d-strip"></div><div id="d-week-list"></div></div>
+  <div class="card" hidden data-old="할일정리_1105"><div class="ch"><h3>이번 주 일정</h3><a class="lnk" href="#schedule">전체 보기 ›</a></div><div class="strip" id="d-strip"></div><div id="d-week-list"></div></div>
   <div class="card" id="d-cal-card"><div class="ch"><h3>월 달력</h3><a class="lnk" href="#schedule">일정 ›</a></div><div id="d-cal"></div><div id="d-cal-day"></div></div>
-  <div class="card"><div class="ch"><h3>급한 할 일 (P1·지연)</h3><a class="lnk" href="#tasks">할 일 ›</a></div><div id="d-tasks"></div></div>
+  <div class="card" hidden data-old="할일정리_1105"><div class="ch"><h3>급한 할 일 (P1·지연)</h3><a class="lnk" href="#tasks">할 일 ›</a></div><div id="d-tasks"></div></div>
   <div class="card"><div class="ch"><h3>온리드 문의 전환</h3><a class="lnk" href="#inquiry">문의 ›</a></div><div class="bars fun" id="d-funnel"></div></div>
   <div class="card"><div class="ch"><h3>문의 이탈 사유</h3><a class="lnk" href="#inquiry">문의 ›</a></div><div class="bars lr" id="d-lost"></div></div>
  </div>
@@ -1709,6 +1731,55 @@ function renderNotify(){
  $('#v-notify > .empty').classList.toggle('show',!rows.length);
  $('#copy-notify').onclick=()=>navigator.clipboard.writeText(rows.map(line).join('\n')).then(()=>toast('복사했습니다'),()=>toast('복사하지 못했습니다'));
 }
+// ───────── 대시보드 '할 일' 한 카드(11/5 저녁 대표님 승인: 오늘·이번 주 두 묶음, 5개 + 전체 보기, 한 줄 = 업체·할 일·마감, 급한 건 빨간 점) ─────────
+// 옛 카드(오늘 할 일·마감 임박·이번 주 일정·급한 할 일)는 지우지 않고 숨김(hidden)만. 그 그리기 코드도 그대로 돈다.
+const TODO_MAX=5,TODO_OPEN={today:false,week:false};
+const COSUF=/(건축사사무소|화장품|코리아|홀딩스|컴퍼니|파트너스|월드|에프앤비)$/;
+function coNames(){   // 진행 중 업체 이름 + 줄임 이름(필로스화장품 → 필로스), 긴 이름부터
+ const out=[];DB.clients.filter(c=>c.status!=='종료'&&!isEnd(c,PG.get(c.id))).forEach(c=>{out.push([c.name,c.name]);const s=c.name.replace(COSUF,'');if(s!==c.name&&s.length>=2)out.push([s,c.name])});
+ return out.sort((a,b)=>b[0].length-a[0].length);
+}
+// 긴 일정 제목 → [업체, 짧은 할 일]. 원문은 펼쳤을 때 그대로 보인다
+function shortTodo(title,names){
+ let s=String(title||'').replace(/🔴/g,'').trim(),co='';
+ const tag=/^\[([^\]]+)\]\s*/.exec(s);if(tag)s=s.slice(tag[0].length);
+ for(const [k,n] of names){if((tag&&tag[1].includes(k))||s.includes(k)){co=n;break}}
+ if(co){for(const [k,n] of names)if(n===co&&s.startsWith(k)){s=s.slice(k.length).replace(/^\s*[:·,]?\s*/,'');break}}
+ s=s.split(/ — | - |\(|（|→|\/ |;|。/)[0].replace(/[:：,]\s*$/,'').trim();
+ return [co||(tag?tag[1]:''),s||String(title||'').slice(0,30)];
+}
+function todoItems(){
+ const t=today(),end=addDays(monday(t),6),names=coNames(),out=[];
+ // 일정은 오늘부터(지난 날 알림은 예전 '오늘 할 일'처럼 넣지 않음 — 일정 화면에 그대로 있음). 고객사 마감·할 일은 지난 것도 넣고 빨간 점
+ DB.schedules.filter(r=>!r.done&&r.date&&r.date>=t&&r.date<=end).forEach(r=>{const [co,tx]=shortTodo(r.title,names);
+  out.push({k:'s'+r.id,co,tx,due:r.date,tm:r.at_time?String(r.at_time).slice(0,5):'',full:r.title,meta:(r.category||'')+(r.at_time?' · '+String(r.at_time).slice(0,5):''),
+   hot:/🔴/.test(r.title||''),open:()=>openForm('schedules',r),done:()=>toggleDone(r,true)})});
+ (typeof TR!=='undefined'?TR:[]).filter(r=>!r.end&&!r.miss&&r.sub!=='완료'&&r.due&&r.due<=end).forEach(r=>{const c=cOf(r.cid);
+  out.push({k:'c'+r.key,co:c.name||'',tx:r.next||UNK,due:r.due,tm:'',full:r.next,meta:'고객사 · '+rName(r)+(r.when?' · 예정 '+r.when:''),hot:r.due<t,open:()=>openCDetail(r)})});
+ DB.erp_tasks.filter(r=>['대기','진행'].includes(r.status)&&r.due&&r.due<=end).forEach(r=>{
+  out.push({k:'t'+r.id,co:r.grp||'',tx:r.title,due:r.due,tm:'',full:r.title+(r.note?'\n'+r.note:''),meta:'할 일 · P'+r.priority+' · '+(r.owner_label||''),hot:r.priority===1||r.due<t,open:()=>openForm('erp_tasks',r)})});
+ const by=(a,b)=>(b.hot-a.hot)||a.due.localeCompare(b.due)||(a.tm||'99').localeCompare(b.tm||'99');
+ return {today:out.filter(x=>x.due<=t).sort(by),week:out.filter(x=>x.due>t).sort(by)};
+}
+function todoDate(d){const t=today();if(d<t)return '지남 '+md(d).replace('-','/');if(d===t)return '오늘';return md(d).replace('-','/')+'('+wd(d)+')'}
+function todoRow(x){
+ const more=h('div',{class:'td-more',hidden:true},h('p',{class:'td-full',text:x.full||x.tx}),h('div',{class:'td-meta',text:x.meta}),
+  h('div',{class:'td-act'},x.done?h('button',{type:'button',class:'btn-line',onclick:e=>{e.stopPropagation();x.done()}},'완료 표시'):null,
+   h('button',{type:'button',class:'btn-line',onclick:e=>{e.stopPropagation();x.open()}},'열기 ›')));
+ const row=h('button',{type:'button',class:'td-row','aria-expanded':'false',onclick:()=>{more.hidden=!more.hidden;row.setAttribute('aria-expanded',String(!more.hidden))}},
+  h('i',{class:'td-dot'+(x.hot?' on':''),'aria-label':x.hot?'급함':null}),
+  x.co?h('b',{class:'td-co',text:x.co}):null,h('span',{class:'td-tx',text:x.tx}),h('span',{class:'td-dd'+(x.due<today()?' late':''),text:(x.tm&&x.due===today()?x.tm+' ':'')+todoDate(x.due)}));
+ return h('div',{class:'td-it fi'},row,more);
+}
+function renderTodo(){
+ const box=$('#d-todo');if(!box)return;
+ const g=todoItems(),grp=(key,title,list,emptyMsg)=>{
+  const open=TODO_OPEN[key],shown=open?list:list.slice(0,TODO_MAX);
+  return h('div',{class:'td-g'},h('div',{class:'td-h'},h('h4',{text:title}),h('span',{class:'c',text:list.length+'건'})),
+   ...(list.length?shown.map(todoRow):[h('div',{class:'muted td-none',text:emptyMsg})]),
+   list.length>TODO_MAX?h('button',{type:'button',class:'btn-line td-all',onclick:()=>{TODO_OPEN[key]=!open;renderTodo()}},open?'접기':'전체 보기 ('+list.length+'건)'):null)};
+ box.replaceChildren(grp('today','오늘',g.today,'오늘 할 일이 없습니다'),grp('week','이번 주',g.week,'남은 이번 주 할 일이 없습니다'));
+}
 function renderDashboard(){
  const t=today(),d=new Date(),soon=addDays(t,7);
  const todo=DB.schedules.filter(r=>r.date===t&&!r.done);
@@ -1739,6 +1810,7 @@ function renderDashboard(){
  const w0=monday(t),week=DB.schedules.filter(r=>!r.done&&r.date>=t&&r.date<=addDays(w0,6)).sort((a,b)=>a.date.localeCompare(b.date));
  strip($('#d-strip'),w0,()=>{location.hash='#schedule'});
  $('#d-week-list').replaceChildren(...(week.length?week.map(r=>h('button',{type:'button',class:'li tap fi',onclick:()=>openForm('schedules',r)},h('span',{class:'dd',style:{width:'92px'},text:md(r.date)+'('+wd(r.date)+')'}),h('span',{class:'tx'},r.at_time?h('b',{text:String(r.at_time).slice(0,5)+' '}):null,r.title))):[none('남은 이번 주 일정이 없습니다')]));
+ renderTodo();
  const ac=$('#alarm-cnt');ac.hidden=!todo.length;ac.textContent=todo.length;
 }
 // ───────── 광고 소재 고르기(ad_creatives 표: 상태·메모만 고침, 넣기·지우기 없음) ─────────
